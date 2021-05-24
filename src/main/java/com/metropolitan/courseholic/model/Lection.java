@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 public class Lection {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Lection name is mandatory")
     private String name;

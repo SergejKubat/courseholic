@@ -125,6 +125,14 @@ public class User {
         this.enabled = enabled;
     }
 
+    public Set<String> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(String... authorities) {
+        this.authorities = new HashSet<>(Arrays.asList(authorities));
+    }
+
     public Set<Course> getCourses() {
         return courses;
     }

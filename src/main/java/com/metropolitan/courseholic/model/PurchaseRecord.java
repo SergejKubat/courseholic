@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class PurchaseRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "date_created")
     private LocalDate dateCreated;

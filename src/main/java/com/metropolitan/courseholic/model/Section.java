@@ -9,7 +9,7 @@ import java.util.Set;
 public class Section {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Section name is mandatory")
     private String name;

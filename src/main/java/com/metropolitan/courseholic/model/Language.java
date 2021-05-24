@@ -9,7 +9,7 @@ import java.util.Set;
 public class Language {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotBlank(message = "Language name is mandatory")
     private String name;
