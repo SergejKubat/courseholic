@@ -1,14 +1,13 @@
 package com.metropolitan.courseholic.service;
 
 import com.metropolitan.courseholic.payload.UserDto;
-
-import java.util.List;
+import com.metropolitan.courseholic.payload.UserResponse;
 
 public interface UserService {
 
     UserDto createUser(UserDto userDto);
 
-    List<UserDto> getAllUsers(int pageNo, int pageSize);
+    UserResponse getAllUsers(int pageNo, int pageSize, String sortBy, String sortDir);
 
     UserDto getUserByUsername(String username);
 
