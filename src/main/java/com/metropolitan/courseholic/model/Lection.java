@@ -16,7 +16,7 @@ public class Lection {
     private String description;
     @NotBlank(message = "Lection video is mandatory")
     private String video;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id", nullable = false)
     private Section section;
 

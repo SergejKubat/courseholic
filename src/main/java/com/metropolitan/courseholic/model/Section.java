@@ -13,10 +13,10 @@ public class Section {
     private Long id;
     @NotBlank(message = "Section name is mandatory")
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
-    @OneToMany(mappedBy = "section")
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Lection> lections;
 
     public Section() {

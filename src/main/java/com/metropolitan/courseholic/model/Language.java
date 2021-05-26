@@ -13,7 +13,7 @@ public class Language {
     private Integer id;
     @NotBlank(message = "Language name is mandatory")
     private String name;
-    @OneToMany(mappedBy = "language")
+    @OneToMany(mappedBy = "language", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Course> courses;
 
     public Language() {
@@ -21,6 +21,14 @@ public class Language {
 
     public Language(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

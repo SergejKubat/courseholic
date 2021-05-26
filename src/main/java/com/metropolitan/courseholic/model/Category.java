@@ -13,7 +13,7 @@ public class Category {
     private Long id;
     @NotBlank(message = "Category name is mandatory")
     private String name;
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Course> courses;
 
     public Category() {
@@ -21,6 +21,14 @@ public class Category {
 
     public Category(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

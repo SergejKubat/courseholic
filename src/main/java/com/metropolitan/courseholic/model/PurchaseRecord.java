@@ -12,10 +12,10 @@ public class PurchaseRecord {
     private Long id;
     @Column(name = "date_created")
     private LocalDate dateCreated;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", nullable = false)
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 

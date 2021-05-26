@@ -2,7 +2,6 @@ package com.metropolitan.courseholic.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Set;
@@ -15,34 +14,29 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    @NotBlank(message = "Course name is mandatory")
     @Size(min = 5, max = 150, message = "Course name length must be between 5 and 150 characters")
     private String name;
-    @NotBlank(message = "Course description is mandatory")
-    @Min(value = 50, message = "Course description length must be greater than 50 characters")
+    //@Min(value = 2, message = "Course description length must be greater than 50 characters")
     private String description;
     @Column(name = "last_updated")
     private LocalDate lastUpdated;
-    @NotBlank(message = "Course price is mandatory")
     private Double price;
-    @NotBlank(message = "Course picture is mandatory")
     private String picture;
-    @NotBlank(message = "Course video is mandatory")
     private String video;
-    private Boolean isPublic;
-    @ManyToOne
+    private boolean isPublic;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", nullable = false)
     private User user;
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews;
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PurchaseRecord> purchaseRecords;
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Section> sections;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "language_id", nullable = false)
     private Language language;
 
@@ -60,6 +54,14 @@ public class Course {
         this.user = user;
         this.category = category;
         this.language = language;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -110,11 +112,11 @@ public class Course {
         this.video = video;
     }
 
-    public Boolean getPublic() {
+    public boolean isPublic() {
         return isPublic;
     }
 
-    public void setPublic(Boolean aPublic) {
+    public void setPublic(boolean aPublic) {
         isPublic = aPublic;
     }
 
@@ -156,5 +158,13 @@ public class Course {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 }

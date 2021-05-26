@@ -39,11 +39,11 @@ public class User {
             uniqueConstraints = @UniqueConstraint(columnNames = {"username", "authority"}))
     @Column(name = "authority")
     private Set<String> authorities = new HashSet<>();
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Course> courses;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PurchaseRecord> purchaseRecords;
 
     public User() {
