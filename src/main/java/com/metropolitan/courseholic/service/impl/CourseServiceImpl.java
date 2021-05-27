@@ -83,11 +83,9 @@ public class CourseServiceImpl implements CourseService {
             throw new CourseholicAPIException(HttpStatus.BAD_REQUEST, "Course does not belong to user.");
         }
 
-        LocalDate now = LocalDate.now();
-
         course.setName(courseDto.getName());
         course.setDescription(courseDto.getDescription());
-        course.setLastUpdated(now);
+        course.setLastUpdated(getDate());
         course.setPrice(courseDto.getPrice());
         course.setPicture(course.getPicture());
         course.setVideo(courseDto.getVideo());
@@ -98,6 +96,18 @@ public class CourseServiceImpl implements CourseService {
         CourseDto courseResponse = mapToDTO(updatedCourse);
 
         return courseResponse;
+    }
+
+    @Override
+    public void deleteCourse(String username, long courseId) {
+        User user = userRepository.findById(username).orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course", "id", String.valueOf(courseId)));
+
+        if (!course.getUser().getUsername().equals(user.getUsername())) {
+            throw new CourseholicAPIException(HttpStatus.BAD_REQUEST, "Course does not belong to user.");
+        }
+
+        courseRepository.delete(course);
     }
 
     private CourseDto mapToDTO(Course course) {
@@ -118,16 +128,19 @@ public class CourseServiceImpl implements CourseService {
     private Course mapToEntity(CourseDto courseDto) {
         Course course = new Course();
 
-        LocalDate now = LocalDate.now();
-
         course.setName(courseDto.getName());
         course.setDescription(courseDto.getDescription());
-        course.setLastUpdated(now);
+        course.setLastUpdated(getDate());
         course.setPrice(courseDto.getPrice());
         course.setPicture(courseDto.getPicture());
         course.setVideo(courseDto.getVideo());
         course.setPublic(courseDto.isPublic());
 
         return course;
+    }
+
+    private LocalDate getDate() {
+        LocalDate now = LocalDate.now();
+        return now;
     }
 }

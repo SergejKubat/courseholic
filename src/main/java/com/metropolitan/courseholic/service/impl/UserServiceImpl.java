@@ -6,6 +6,7 @@ import com.metropolitan.courseholic.payload.UserDto;
 import com.metropolitan.courseholic.payload.UserResponse;
 import com.metropolitan.courseholic.repository.UserRepository;
 import com.metropolitan.courseholic.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +22,11 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private ModelMapper modelMapper;
+
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -89,25 +93,25 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDto mapToDTO(User user) {
-        UserDto userDto = new UserDto();
+        UserDto userDto = modelMapper.map(user, UserDto.class);
 
-        userDto.setUsername(user.getUsername());
+        /*userDto.setUsername(user.getUsername());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
         userDto.setAvatar(user.getAvatar());
         userDto.setDateCreated(user.getDateCreated());
-        userDto.setEnabled(user.getEnabled());
+        userDto.setEnabled(user.getEnabled());*/
 
         return userDto;
     }
 
     private User mapToEntity(UserDto userDto) {
-        User user = new User();
+        User user = modelMapper.map(userDto, User.class);
 
         LocalDate now = LocalDate.now();
 
-        user.setUsername(userDto.getUsername());
+        /*user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
@@ -115,6 +119,9 @@ public class UserServiceImpl implements UserService {
         user.setDateCreated(now);
         user.setPassword(userDto.getPassword());
         user.setEnabled(true);
+        user.setAuthorities("STUDENT");*/
+
+        user.setDateCreated(now);
         user.setAuthorities("STUDENT");
 
         return user;

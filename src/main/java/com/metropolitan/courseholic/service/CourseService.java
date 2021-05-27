@@ -14,4 +14,6 @@ public interface CourseService {
 
     CourseDto updateCourse(String username, long courseId, CourseDto courseDto);
 
+    void deleteCourse(String username, long courseId);
+
 }
