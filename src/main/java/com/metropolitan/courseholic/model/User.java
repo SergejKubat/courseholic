@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = {"email"}) })
 public class User {
 
     @Id
@@ -22,7 +22,6 @@ public class User {
     @Column(name = "last_name")
     @NotBlank(message = "Last name is mandatory")
     private String lastName;
-    @Column(unique = true)
     @NotBlank(message = "Email is mandatory")
     @Email
     private String email;
@@ -33,12 +32,11 @@ public class User {
     @Size(min = 8, max = 64, message = "Password length must be between 8 and 64 characters")
     private String password;
     private Boolean enabled;
-    @ElementCollection
-    @CollectionTable(name = "authorities",
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"username", "authority"}))
-    @Column(name = "authority")
-    private Set<String> authorities = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Course> courses;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -49,7 +47,7 @@ public class User {
     public User() {
     }
 
-    public User(String username, String firstName, String lastName, String email, String avatar, LocalDate dateCreated, String password, Boolean enabled, String... authorities) {
+    public User(String username, String firstName, String lastName, String email, String avatar, LocalDate dateCreated, String password, Boolean enabled) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -58,7 +56,6 @@ public class User {
         this.dateCreated = dateCreated;
         this.password = password;
         this.enabled = enabled;
-        this.authorities = new HashSet<>(Arrays.asList(authorities));
     }
 
     public String getUsername() {
@@ -125,12 +122,12 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Set<String> getAuthorities() {
-        return authorities;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setAuthorities(String... authorities) {
-        this.authorities = new HashSet<>(Arrays.asList(authorities));
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Set<Course> getCourses() {

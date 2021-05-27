@@ -122,7 +122,6 @@ public class UserServiceImpl implements UserService {
         user.setAuthorities("STUDENT");*/
 
         user.setDateCreated(now);
-        user.setAuthorities("STUDENT");
 
         return user;
     }

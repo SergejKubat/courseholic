@@ -4,6 +4,7 @@ import com.metropolitan.courseholic.payload.CourseDto;
 import com.metropolitan.courseholic.service.CourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/users/{username}/courses")
     public ResponseEntity<CourseDto> createCourse(@PathVariable(value = "username") String username, @Valid @RequestBody CourseDto courseDto) {
         return new ResponseEntity<>(courseService.createCourse(username, 1, 1, courseDto), HttpStatus.CREATED);
