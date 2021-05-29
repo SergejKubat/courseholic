@@ -1,6 +1,7 @@
 package com.metropolitan.courseholic.service;
 
 import com.metropolitan.courseholic.payload.CourseDto;
+import com.metropolitan.courseholic.payload.CourseResponse;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface CourseService {
 
     List<CourseDto> findAllByUserUsername(String username);
 
-    CourseDto getCourseById(String username, long courseId);
+    CourseResponse getCourseById(String username, long courseId);
 
     CourseDto updateCourse(String username, long courseId, CourseDto courseDto);
 

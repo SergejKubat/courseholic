@@ -15,7 +15,6 @@ public class Review {
     private Long id;
     @NotBlank(message = "Review comment is mandatory")
     private String comment;
-    @NotBlank(message = "Review rate is mandatory")
     @Min(value = 1, message = "Review rate should not be less than 1")
     @Max(value = 5, message = "Review rate should not be greater than 5")
     private Integer rating;
@@ -37,6 +36,14 @@ public class Review {
         this.dateCreated = dateCreated;
         this.user = user;
         this.course = course;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getComment() {

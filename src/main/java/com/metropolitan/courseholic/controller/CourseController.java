@@ -1,6 +1,7 @@
 package com.metropolitan.courseholic.controller;
 
 import com.metropolitan.courseholic.payload.CourseDto;
+import com.metropolitan.courseholic.payload.CourseResponse;
 import com.metropolitan.courseholic.service.CourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('AUTHOR')")
     @PostMapping("/users/{username}/courses")
     public ResponseEntity<CourseDto> createCourse(@PathVariable(value = "username") String username, @Valid @RequestBody CourseDto courseDto) {
         return new ResponseEntity<>(courseService.createCourse(username, 1, 1, courseDto), HttpStatus.CREATED);
@@ -32,12 +33,13 @@ public class CourseController {
     }
 
     @GetMapping("/users/{username}/courses/{courseId}")
-    public ResponseEntity<CourseDto> getCourseById(@PathVariable(value = "username") String username,
-                                                   @PathVariable(value = "courseId") long courseId) {
-        CourseDto courseDto = courseService.getCourseById(username, courseId);
-        return new ResponseEntity<>(courseDto, HttpStatus.OK);
+    public ResponseEntity<CourseResponse> getCourseById(@PathVariable(value = "username") String username,
+                                                        @PathVariable(value = "courseId") long courseId) {
+        CourseResponse courseResponse = courseService.getCourseById(username, courseId);
+        return new ResponseEntity<>(courseResponse, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('AUTHOR')")
     @PutMapping("/users/{username}/courses/{courseId}")
     public ResponseEntity<CourseDto> updateCourse(@PathVariable(value = "username") String username,
                                                   @PathVariable(value = "courseId") long courseId,
@@ -46,6 +48,7 @@ public class CourseController {
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('AUTHOR')")
     @DeleteMapping("/users/{username}/courses/{courseId}")
     public ResponseEntity<String> deleteCourse(@PathVariable(value = "username") String username,
                                                @PathVariable(value = "courseId") long courseId) {
