@@ -24,29 +24,26 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    //@TODO: promeniti dosta stvari
-
     private UserRepository userRepository;
+    private MailService mailService;
 
     private EntityMapper entityMapper;
     private DTOMapper dtoMapper;
 
-    public UserServiceImpl(UserRepository userRepository, EntityMapper entityMapper, DTOMapper dtoMapper) {
+    public UserServiceImpl(UserRepository userRepository, MailService mailService, EntityMapper entityMapper, DTOMapper dtoMapper) {
         this.userRepository = userRepository;
+        this.mailService = mailService;
         this.entityMapper = entityMapper;
         this.dtoMapper = dtoMapper;
     }
 
     @Override
     public UserDto createUser(SignUpDto signUpDto) {
-
-        System.out.printf("BEFORE:");
-
         User user = entityMapper.mapToUserEntitySignUp(signUpDto);
 
-        System.out.printf("AFTER:");
-
         User newUser = userRepository.save(user);
+
+        mailService.sendCreationEmail(newUser);
 
         UserDto userResponse = dtoMapper.mapToUserDTO(newUser);
 
