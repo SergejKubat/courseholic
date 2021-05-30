@@ -8,6 +8,8 @@ import com.metropolitan.courseholic.payload.LectionDto;
 import com.metropolitan.courseholic.repository.LectionRepository;
 import com.metropolitan.courseholic.repository.SectionRepository;
 import com.metropolitan.courseholic.service.LectionService;
+import com.metropolitan.courseholic.service.mapper.DTOMapper;
+import com.metropolitan.courseholic.service.mapper.EntityMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +22,19 @@ public class LectionServiceImpl implements LectionService {
     private LectionRepository lectionRepository;
     private SectionRepository sectionRepository;
 
-    public LectionServiceImpl(LectionRepository lectionRepository, SectionRepository sectionRepository) {
+    private EntityMapper entityMapper;
+    private DTOMapper dtoMapper;
+
+    public LectionServiceImpl(LectionRepository lectionRepository, SectionRepository sectionRepository, EntityMapper entityMapper, DTOMapper dtoMapper) {
         this.lectionRepository = lectionRepository;
         this.sectionRepository = sectionRepository;
+        this.entityMapper = entityMapper;
+        this.dtoMapper = dtoMapper;
     }
 
     @Override
     public LectionDto createLection(long sectionId, LectionDto lectionDto) {
-        Lection lection = mapToEntity(lectionDto);
+        Lection lection = entityMapper.mapToLectionEntity(lectionDto);
 
         Section section = sectionRepository.findById(sectionId).orElseThrow(() -> new ResourceNotFoundException("Section", "id", String.valueOf(sectionId)));
 
@@ -35,7 +42,7 @@ public class LectionServiceImpl implements LectionService {
 
         Lection newLection = lectionRepository.save(lection);
 
-        LectionDto lectionResponse = mapToDto(newLection);
+        LectionDto lectionResponse = dtoMapper.mapToLectionDto(newLection);
 
         return lectionResponse;
     }
@@ -44,29 +51,21 @@ public class LectionServiceImpl implements LectionService {
     public List<LectionDto> findAllBySectionId(long sectionId) {
         List<Lection> lections = lectionRepository.findAllBySectionId(sectionId);
 
-        return lections.stream().map(lection -> mapToDto(lection)).collect(Collectors.toList());
+        return lections.stream().map(lection -> dtoMapper.mapToLectionDto(lection)).collect(Collectors.toList());
     }
 
     @Override
     public LectionDto findById(long sectionId, long lectionId) {
-        Section section = sectionRepository.findById(sectionId).orElseThrow(() -> new ResourceNotFoundException("Section", "id", String.valueOf(sectionId)));
-        Lection lection = lectionRepository.findById(lectionId).orElseThrow(() -> new ResourceNotFoundException("Lection", "id", String.valueOf(lectionId)));
+        checkLection(sectionId, lectionId);
 
-        if (lection.getSection().getId() != section.getId()) {
-            throw new CourseholicAPIException(HttpStatus.BAD_REQUEST, "Lection does not belong to section.");
-        }
-
-        return mapToDto(lection);
+        return dtoMapper.mapToLectionDto(lectionRepository.findById(lectionId).get());
     }
 
     @Override
     public LectionDto updateLection(long sectionId, long lectionId, LectionDto lectionDto) {
-        Section section = sectionRepository.findById(sectionId).orElseThrow(() -> new ResourceNotFoundException("Section", "id", String.valueOf(sectionId)));
-        Lection lection = lectionRepository.findById(lectionId).orElseThrow(() -> new ResourceNotFoundException("Lection", "id", String.valueOf(lectionId)));
+        checkLection(sectionId, lectionId);
 
-        if (lection.getSection().getId() != section.getId()) {
-            throw new CourseholicAPIException(HttpStatus.BAD_REQUEST, "Lection does not belong to section.");
-        }
+        Lection lection = lectionRepository.findById(lectionId).get();
 
         lection.setName(lection.getName());
         lection.setDescription(lectionDto.getDescription());
@@ -74,41 +73,25 @@ public class LectionServiceImpl implements LectionService {
 
         Lection updatedLection = lectionRepository.save(lection);
 
-        LectionDto lectionResponse = mapToDto(updatedLection);
+        LectionDto lectionResponse = dtoMapper.mapToLectionDto(updatedLection);
 
         return lectionResponse;
     }
 
     @Override
     public void deleteLection(long sectionId, long lectionId) {
+        checkLection(sectionId, lectionId);
+
+        lectionRepository.delete(lectionRepository.findById(lectionId).get());
+    }
+
+    private void checkLection(long sectionId, long lectionId) {
         Section section = sectionRepository.findById(sectionId).orElseThrow(() -> new ResourceNotFoundException("Section", "id", String.valueOf(sectionId)));
         Lection lection = lectionRepository.findById(lectionId).orElseThrow(() -> new ResourceNotFoundException("Lection", "id", String.valueOf(lectionId)));
 
         if (lection.getSection().getId() != section.getId()) {
             throw new CourseholicAPIException(HttpStatus.BAD_REQUEST, "Lection does not belong to section.");
         }
-
-        lectionRepository.delete(lection);
     }
 
-    private LectionDto mapToDto(Lection lection) {
-        LectionDto lectionDto = new LectionDto();
-
-        lectionDto.setId(lection.getId());
-        lectionDto.setName(lection.getName());
-        lectionDto.setDescription(lection.getDescription());
-        lectionDto.setVideo(lection.getVideo());
-
-        return lectionDto;
-    }
-
-    private Lection mapToEntity(LectionDto lectionDto) {
-        Lection lection = new Lection();
-
-        lection.setName(lectionDto.getName());
-        lection.setDescription(lectionDto.getDescription());
-        lection.setVideo(lectionDto.getVideo());
-
-        return lection;
-    }
 }

@@ -9,7 +9,7 @@ public interface CourseService {
 
     CourseDto createCourse(String username, long categoryId, int languageId, CourseDto courseDto);
 
-    List<CourseDto> findAllByUserUsername(String username);
+    List<CourseResponse> findAllByUserUsername(String username);
 
     CourseResponse getCourseById(String username, long courseId);
 

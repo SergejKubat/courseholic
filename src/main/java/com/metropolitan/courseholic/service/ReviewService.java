@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface ReviewService {
 
-    ReviewDto createReview(String username, long courseId, ReviewDto reviewDto);
+    ReviewDto createReview(long courseId, ReviewDto reviewDto);
 
     List<ReviewDto> findAllByUsername(String username);
 
     List<ReviewDto> findAllByCourseId(long courseId);
 
-    ReviewDto updateReview(String username, long courseId, ReviewDto reviewDto);
+    ReviewDto updateReview(long courseId, long reviewId, ReviewDto reviewDto);
 
-    void deleteReview(String username, long courseId, int reviewId);
+    void deleteReview(long courseId, long reviewId);
 
 }

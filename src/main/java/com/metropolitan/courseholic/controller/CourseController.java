@@ -28,7 +28,7 @@ public class CourseController {
     }
 
     @GetMapping("/users/{username}/courses")
-    public List<CourseDto> findCoursesByUserId(@PathVariable(value = "username") String username) {
+    public List<CourseResponse> findCoursesByUserId(@PathVariable(value = "username") String username) {
         return courseService.findAllByUserUsername(username);
     }
 

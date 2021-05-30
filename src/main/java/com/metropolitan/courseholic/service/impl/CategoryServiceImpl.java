@@ -1,47 +1,54 @@
 package com.metropolitan.courseholic.service.impl;
 
+import com.metropolitan.courseholic.exception.ResourceNotFoundException;
 import com.metropolitan.courseholic.model.Category;
 import com.metropolitan.courseholic.payload.CategoryDto;
 import com.metropolitan.courseholic.repository.CategoryRepository;
 import com.metropolitan.courseholic.service.CategoryService;
+import com.metropolitan.courseholic.service.mapper.DTOMapper;
+import com.metropolitan.courseholic.service.mapper.EntityMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    private EntityMapper entityMapper;
+    private DTOMapper dtoMapper;
+
+    public CategoryServiceImpl(CategoryRepository categoryRepository, EntityMapper entityMapper, DTOMapper dtoMapper) {
         this.categoryRepository = categoryRepository;
+        this.entityMapper = entityMapper;
+        this.dtoMapper = dtoMapper;
     }
 
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
 
-        Category category = mapToEntity(categoryDto);
+        Category category = entityMapper.mapToCategoryEntity(categoryDto);
 
         Category newCategory = categoryRepository.save(category);
 
-        CategoryDto categoryResponse = mapToDTO(newCategory);
+        CategoryDto categoryResponse = dtoMapper.mapToCategoryDTO(newCategory);
 
         return categoryResponse;
     }
 
-    private CategoryDto mapToDTO(Category category) {
-        CategoryDto categoryDto = new CategoryDto();
+    @Override
+    public CategoryDto findById(long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category", "id", String.valueOf(categoryId)));
 
-        categoryDto.setId(category.getId());
-        categoryDto.setName(category.getName());
-
-        return categoryDto;
+        return dtoMapper.mapToCategoryDTO(category);
     }
 
-    private Category mapToEntity(CategoryDto categoryDto) {
-        Category category = new Category();
-
-        category.setName(categoryDto.getName());
-
-        return category;
+    @Override
+    public List<CategoryDto> findAll() {
+        return categoryRepository.findAll().stream().map(category -> dtoMapper.mapToCategoryDTO(category))
+                .collect(Collectors.toList());
     }
 
 }
