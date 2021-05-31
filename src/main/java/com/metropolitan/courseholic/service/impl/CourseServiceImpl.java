@@ -11,6 +11,10 @@ import com.metropolitan.courseholic.repository.UserRepository;
 import com.metropolitan.courseholic.service.CourseService;
 import com.metropolitan.courseholic.service.mapper.DTOMapper;
 import com.metropolitan.courseholic.service.mapper.EntityMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +66,30 @@ public class CourseServiceImpl implements CourseService {
         List<Course> courses = courseRepository.findAllByUserUsername(username);
 
         return courses.stream().map(course -> dtoMapper.mapToCourseResponse(course)).collect(Collectors.toList());
+    }
+
+    @Override
+    public CourseListDto findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Page<Course> courses = courseRepository.findAll(pageable);
+
+        List<Course> listOfCourses = courses.getContent();
+
+        List<CourseResponse> content = listOfCourses.stream().map(course -> dtoMapper.mapToCourseResponse(course)).collect(Collectors.toList());
+
+        CourseListDto courseListDto = new CourseListDto();
+        courseListDto.setCourses(content);
+        courseListDto.setPageNo(courses.getNumber());
+        courseListDto.setPageSize(courses.getSize());
+        courseListDto.setTotalElements(courses.getTotalElements());
+        courseListDto.setTotalPages(courses.getTotalPages());
+        courseListDto.setLast(courses.isLast());
+
+        return courseListDto;
     }
 
     @Override

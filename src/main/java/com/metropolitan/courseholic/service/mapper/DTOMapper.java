@@ -84,7 +84,7 @@ public class DTOMapper {
         CourseResponse courseResponse = new CourseResponse();
 
         courseResponse.setCourse(mapToCourseDTO(course));
-        courseResponse.setUser(mapToUserDTO(course.getUser()));
+        courseResponse.setAuthor(mapToUserDTO(course.getUser()));
         courseResponse.setCategory(mapToCategoryDTO(course.getCategory()));
         courseResponse.setLanguage(mapToLanguageDTO(course.getLanguage()));
         courseResponse.setSections(course.getSections().stream().map(section -> mapToSectionResponse(section)).collect(Collectors.toList()));

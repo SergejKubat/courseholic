@@ -12,7 +12,7 @@ import java.util.List;
 public class CourseResponse {
 
     private CourseDto course;
-    private UserDto user;
+    private UserDto author;
     private CategoryDto category;
     private LanguageDto language;
     private List<SectionResponse> sections;

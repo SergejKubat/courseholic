@@ -1,8 +1,10 @@
 package com.metropolitan.courseholic.controller;
 
 import com.metropolitan.courseholic.payload.CourseDto;
+import com.metropolitan.courseholic.payload.CourseListDto;
 import com.metropolitan.courseholic.payload.CourseResponse;
 import com.metropolitan.courseholic.service.CourseService;
+import com.metropolitan.courseholic.utils.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,6 +32,15 @@ public class CourseController {
     @GetMapping("/users/{username}/courses")
     public List<CourseResponse> findCoursesByUserId(@PathVariable(value = "username") String username) {
         return courseService.findAllByUserUsername(username);
+    }
+
+    @GetMapping("/courses")
+    public CourseListDto findAll(
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "name", required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return courseService.findAll(pageNo, pageSize, sortBy, sortDir);
     }
 
     @GetMapping("/users/{username}/courses/{courseId}")
