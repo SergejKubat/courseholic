@@ -1,3 +1,5 @@
+import logo from '../../assets/img/logo-white.png';
+
 function Footer() {
     return (
         <footer className="cm-footer">
@@ -9,7 +11,7 @@ function Footer() {
                                 <div className="cm-footer__text">
                                     <p>
                                         <img
-                                            src="../../assets/img/logo-white.png"
+                                            src={logo}
                                             alt="Logo white"
                                             className="cm-footer__img"
                                         />
@@ -25,35 +27,33 @@ function Footer() {
                                 <h4>Bitni linkovi</h4>
                                 <div className="cm-footer__menu-container">
                                     <ul className="cm-footer__menu">
-                                        <li className="cm-footer__menu-item"><a href="#">O nama</a></li>
-                                        <li className="cm-footer__menu-item"><a href="#">Kontakt</a></li>
-                                        <li className="cm-footer__menu-item"><a href="#">FAQ</a></li>
-                                        <li className="cm-footer__menu-item"><a href="#">Autori</a></li>
-                                        <li className="cm-footer__menu-item"><a href="#">Kursevi</a></li>
+                                        <li className="cm-footer__menu-item"><span>About us</span></li>
+                                        <li className="cm-footer__menu-item"><span>Contact</span></li>
+                                        <li className="cm-footer__menu-item"><span>FAQ</span></li>
+                                        <li className="cm-footer__menu-item"><span>Authors</span></li>
+                                        <li className="cm-footer__menu-item"><span>Courses</span></li>
                                     </ul>
                                 </div>
                             </div>
                             <div className="cm-footer__col">
-                                <h4>Kontakt info</h4>
+                                <h4>Contact info</h4>
                                 <div className="cm-footer__contact-info">
                                     <ul>
                                         <li>
-                                              <span className="cm-footer__contact-icon">
+                                            <span className="cm-footer__contact-icon">
                                                 <i className="fa fa-map-marker" aria-hidden="true"></i>
-                                              </span>
+                                            </span>
                                             <span className="cm-footer__content">
                                             <span className="cm-footer__heading">Lokacija:</span>
-                                            <span className="cm-footer__details"
-                                            >Marka Markovića 23a, 11000 Beograd</span
-                                            >
+                                            <span className="cm-footer__details">Marka Markovića 23a, 11000 Belgrade</span>
                                           </span>
                                         </li>
                                         <li>
                                           <span className="cm-footer__contact-icon">
                                             <i className="fa fa-phone" aria-hidden="true"></i>
                                           </span>
-                                                                    <span className="cm-footer__content">
-                                            <span className="cm-footer__heading">Telefon:</span>
+                                            <span className="cm-footer__content">
+                                            <span className="cm-footer__heading">Phone:</span>
                                             <span className="cm-footer__details">+381 011 322 543</span>
                                           </span>
                                         </li>
@@ -61,11 +61,9 @@ function Footer() {
                                           <span className="cm-footer__contact-icon">
                                             <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
                                           </span>
-                                                                    <span className="cm-footer__content">
+                                            <span className="cm-footer__content">
                                             <span className="cm-footer__heading">Email:</span>
-                                            <span className="cm-footer__details"
-                                            >helpdesk@kursmania.rs</span
-                                            >
+                                            <span className="cm-footer__details">courseholic@gmail.com</span>
                                           </span>
                                         </li>
                                     </ul>
@@ -76,10 +74,9 @@ function Footer() {
                 </div>
             </div>
             <div className="cm-footer__site-info">
-                <p>© 2020, All Rights Reserved.</p>
+                <p>© { new Date().getFullYear() }, All Rights Reserved.</p>
             </div>
         </footer>
-
     );
 }
 
