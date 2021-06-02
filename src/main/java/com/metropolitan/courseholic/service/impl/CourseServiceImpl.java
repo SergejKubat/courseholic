@@ -69,7 +69,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseListDto findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+    public CourseListDto findAll(int pageNo, int pageSize, String sortBy, String sortDir, long categoryId) {
 
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
@@ -78,6 +78,10 @@ public class CourseServiceImpl implements CourseService {
         Page<Course> courses = courseRepository.findAll(pageable);
 
         List<Course> listOfCourses = courses.getContent();
+
+        if (categoryId != 0) {
+            listOfCourses.stream().filter(course -> course.getCategory().getId() == categoryId);
+        }
 
         List<CourseResponse> content = listOfCourses.stream().map(course -> dtoMapper.mapToCourseResponse(course)).collect(Collectors.toList());
 

@@ -25,6 +25,7 @@ public class EntityMapper {
         Category category = new Category();
 
         category.setName(categoryDto.getName());
+        category.setImage(categoryDto.getImage());
 
         return category;
     }

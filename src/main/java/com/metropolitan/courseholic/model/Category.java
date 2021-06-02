@@ -13,14 +13,17 @@ public class Category {
     private Long id;
     @NotBlank(message = "Category name is mandatory")
     private String name;
+    @NotBlank(message = "Category image is mandatory")
+    private String image;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Course> courses;
 
     public Category() {
     }
 
-    public Category(String name) {
+    public Category(String name, String image) {
         this.name = name;
+        this.image = image;
     }
 
     public Long getId() {
@@ -37,6 +40,14 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Set<Course> getCourses() {

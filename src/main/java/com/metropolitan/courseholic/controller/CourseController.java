@@ -39,8 +39,9 @@ public class CourseController {
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = "name", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
-        return courseService.findAll(pageNo, pageSize, sortBy, sortDir);
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir,
+            @RequestParam(value = "categoryId", defaultValue = "0", required = false) long categoryId) {
+        return courseService.findAll(pageNo, pageSize, sortBy, sortDir, categoryId);
     }
 
     @GetMapping("/users/{username}/courses/{courseId}")

@@ -14,6 +14,7 @@ public class DTOMapper {
 
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());
+        categoryDto.setImage(category.getImage());
 
         return categoryDto;
     }

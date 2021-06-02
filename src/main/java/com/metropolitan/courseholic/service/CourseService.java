@@ -12,7 +12,7 @@ public interface CourseService {
 
     List<CourseResponse> findAllByUserUsername(String username);
 
-    CourseListDto findAll(int pageNo, int pageSize, String sortBy, String sortDir);
+    CourseListDto findAll(int pageNo, int pageSize, String sortBy, String sortDir, long categoryId);
 
     CourseResponse getCourseById(String username, long courseId);
 
