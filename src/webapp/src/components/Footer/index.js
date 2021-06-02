@@ -1,5 +1,9 @@
 import logo from '../../assets/img/logo-white.png';
 
+import { GoLocation } from 'react-icons/go';
+import { FaPhoneAlt } from 'react-icons/fa';
+import { HiOutlineMail } from 'react-icons/hi';
+
 function Footer() {
     return (
         <footer className="cm-footer">
@@ -41,16 +45,16 @@ function Footer() {
                                     <ul>
                                         <li>
                                             <span className="cm-footer__contact-icon">
-                                                <i className="fa fa-map-marker" aria-hidden="true"></i>
+                                                <GoLocation />
                                             </span>
                                             <span className="cm-footer__content">
-                                            <span className="cm-footer__heading">Lokacija:</span>
+                                            <span className="cm-footer__heading">Location:</span>
                                             <span className="cm-footer__details">Marka Markovića 23a, 11000 Belgrade</span>
                                           </span>
                                         </li>
                                         <li>
                                           <span className="cm-footer__contact-icon">
-                                            <i className="fa fa-phone" aria-hidden="true"></i>
+                                            <FaPhoneAlt />
                                           </span>
                                             <span className="cm-footer__content">
                                             <span className="cm-footer__heading">Phone:</span>
@@ -59,7 +63,7 @@ function Footer() {
                                         </li>
                                         <li>
                                           <span className="cm-footer__contact-icon">
-                                            <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                            <HiOutlineMail />
                                           </span>
                                             <span className="cm-footer__content">
                                             <span className="cm-footer__heading">Email:</span>
