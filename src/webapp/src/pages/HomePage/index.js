@@ -1,11 +1,25 @@
-import BestAuthors from './../../components/BestAuthors';
-import Categories from './../../components/Categories';
-import PopularCourses from './../../components/PopularCourses';
-import Sponsors from './../../components/Sponsors';
+import { useEffect, useState } from 'react';
+import BestAuthors from '../../components/BestAuthors';
+import CategoryCard from '../../components/CategoryCard';
+import PopularCourses from '../../components/PopularCourses';
+import Sponsors from '../../components/Sponsors';
+
+import CategoryService from '../../services/CategoryService';
 
 import AboutUs from "./../../assets/img/about-us.jpg";
 
-function Home() {
+function HomePage() {
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(
+        () => {
+            CategoryService.getAll().then(response => {
+                setCategories(response.data);
+            });
+        }
+    );
+
     return (
         <main className="cm-main">
 
@@ -16,7 +30,23 @@ function Home() {
                 </h2>
             </section>
 
-            <Categories />
+            <section className="cm-all-categories">
+                <h1 className="cm-heading">
+                <span className="cm-heading__main">Welcome to Courseholic</span>
+                <span className="cm-heading__sub">Course categories</span>
+                <span className="cm-heading__hr"></span>
+                </h1>
+                <div className="cm-categories-list">
+                    {categories.map(category => (
+                        <CategoryCard
+                        key={category.id}
+                        id={category.id}
+                        name={category.name}
+                        image={category.image}
+                        />
+                    ))}
+                </div>
+            </section>
 
             <section className="cm-about">
                 <div className="cm-about__details">
@@ -107,4 +137,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default HomePage;

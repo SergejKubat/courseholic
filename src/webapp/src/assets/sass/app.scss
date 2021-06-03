@@ -4,13 +4,21 @@
 @import "base/base";
 @import "base/typography";
 
+@import "components/add-reviews";
 @import "components/button";
+@import "components/category-card";
 @import "components/course";
+@import "components/lection";
+@import "components/review-list";
+@import "components/review";
 @import "components/search";
+@import "components/section";
 
 @import "layouts/header";
 @import "layouts/footer";
 
+@import "pages/author";
+@import "pages/error";
 @import "pages/home";
 @import "pages/login";
 @import "pages/registration";

@@ -1,4 +1,4 @@
-const SignUp = () => {
+const SignUpPage = () => {
     return (
         <section class="cm-registration">
             <div class="cm-registration__container">
@@ -69,4 +69,4 @@ const SignUp = () => {
     );
 }
  
-export default SignUp;
+export default SignUpPage;

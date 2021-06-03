@@ -6,9 +6,14 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 //pages
-import Home from './pages/Home';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import HomePage from './pages/HomePage';
+import SignInPage from './pages/SignInPage';
+import SignUpPage from './pages/SignUpPage';
+import AuthorPage from './pages/AuthorPage';
+import CoursePage from './pages/CoursePage';
+import SearchPage from './pages/SearchPage';
+import AccountPage from './pages/AccountPage';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
   return (
@@ -16,10 +21,15 @@ function App() {
       <Router>
         <Header />
           <Switch>
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/home" component={HomePage} />
+            <Route exact path="/signin" component={SignInPage} />
+            <Route exact path="/signup" component={SignUpPage} />
+            <Route path="/author/:authorId" component={AuthorPage} />
+            <Route path="/course/:courseId" component={CoursePage} />
+            <Route exact path="/search" component={SearchPage} />
+            <Route path="/account/:accountId" component={AccountPage} />
             <Route exact path="/" component={() => <Redirect to="/home" />} />
+            <Route path="*" component={ErrorPage} />
           </Switch>
         <Footer />
       </Router>
