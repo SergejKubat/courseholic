@@ -88,7 +88,7 @@ public class EntityMapper {
         user.setFirstName(signUpDto.getFirstName());
         user.setLastName(signUpDto.getLastName());
         user.setEmail(signUpDto.getEmail());
-        user.setAvatar("public/img");
+        user.setAvatar("http://localhost:8080/img/user.png");
         user.setDateCreated(LocalDate.now());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         user.setEnabled(true);

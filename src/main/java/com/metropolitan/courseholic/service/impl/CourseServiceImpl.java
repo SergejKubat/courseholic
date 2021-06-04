@@ -80,7 +80,8 @@ public class CourseServiceImpl implements CourseService {
         List<Course> listOfCourses = courses.getContent();
 
         if (categoryId != 0) {
-            listOfCourses.stream().filter(course -> course.getCategory().getId() == categoryId);
+            System.out.println("id kategorije je " + categoryId);
+            listOfCourses = listOfCourses.stream().filter(course -> course.getCategory().getId() == categoryId).collect(Collectors.toList());
         }
 
         List<CourseResponse> content = listOfCourses.stream().map(course -> dtoMapper.mapToCourseResponse(course)).collect(Collectors.toList());

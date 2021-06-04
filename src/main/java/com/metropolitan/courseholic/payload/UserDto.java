@@ -22,6 +22,8 @@ public class UserDto {
     @NotEmpty(message = "Email should not be empty")
     @Email
     private String email;
+    private String profession;
+    private String description;
     private String avatar;
     private LocalDate dateCreated;
     @NotEmpty(message = "Password should not be empty")

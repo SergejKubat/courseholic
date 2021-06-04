@@ -4,6 +4,7 @@ import com.metropolitan.courseholic.model.*;
 import com.metropolitan.courseholic.payload.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -113,11 +114,32 @@ public class DTOMapper {
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
+        userDto.setProfession(user.getProfession());
+        userDto.setDescription(user.getDescription());
         userDto.setAvatar(user.getAvatar());
         userDto.setDateCreated(user.getDateCreated());
         userDto.setEnabled(user.getEnabled());
 
         return userDto;
+    }
+
+    public AuthorDto mapToAuthorDTO(User user) {
+        AuthorDto authorDto = new AuthorDto();
+
+        UserDto userDto = mapToUserDTO(user);
+        authorDto.setAuthor(userDto);
+
+        List<Course> authorCourses = user.getCourses().stream().collect(Collectors.toList());
+        List<CourseResponse> courseResponses = authorCourses.stream().map(course -> mapToCourseResponse(course)).collect(Collectors.toList());
+        authorDto.setCourses(courseResponses);
+
+        int numberOfStudents = authorCourses.stream().mapToInt(course -> course.getPurchaseRecords().size()).sum();
+        authorDto.setNumberOfStudents(numberOfStudents);
+
+        int numberOfRatings = authorCourses.stream().mapToInt(course -> course.getReviews().size()).sum();
+        authorDto.setNumberOfRatings(numberOfRatings);
+
+        return authorDto;
     }
 
 }

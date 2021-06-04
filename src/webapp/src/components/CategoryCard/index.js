@@ -8,7 +8,7 @@ const CategoryCard = (props) => {
     useEffect(
         () => {
             CourseService.getCoursesByCategoryId(props.id).then(res => {
-                setNumberOfCourses(res.data.totalElements);
+                setNumberOfCourses(res.data.courses.length);
             });
         },
         [] 

@@ -25,6 +25,8 @@ public class User {
     @NotBlank(message = "Email is mandatory")
     @Email
     private String email;
+    private String profession;
+    private String description;
     private String avatar;
     @Column(name = "date_created")
     private LocalDate dateCreated;
@@ -47,11 +49,13 @@ public class User {
     public User() {
     }
 
-    public User(String username, String firstName, String lastName, String email, String avatar, LocalDate dateCreated, String password, Boolean enabled) {
+    public User(String username, String firstName, String lastName, String email, String profession, String description, String avatar, LocalDate dateCreated, String password, Boolean enabled) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.profession = profession;
+        this.description = description;
         this.avatar = avatar;
         this.dateCreated = dateCreated;
         this.password = password;
@@ -88,6 +92,22 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getAvatar() {
