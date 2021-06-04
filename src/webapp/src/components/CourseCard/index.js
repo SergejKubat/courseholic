@@ -1,39 +1,66 @@
-const CourseCard = () => {
+import { NavLink } from "react-router-dom"
+
+import { FaUserTie, FaUserGraduate} from 'react-icons/fa';
+import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
+
+const CourseCard = (props) => {
+
+    const runCallback = (cb) => {
+        return cb();
+      };
+
     return (
         <div class="cm-course-item">
             <div class="cm-course-item__thumbnail">
                 <img
-                src="sasasasa"
-                alt="sasasa"
+                src={props.picture}
+                alt={props.name}
                 class="cm-course-item__img"
                 />
                 <div class="cm-course-item__hidden">
                 <button class="cm-btn">
-                    Details
+                    <NavLink to={'/course/' + props.id}>
+                        Details
+                    </NavLink>
                 </button>
                 </div>
-                <span class="cm-course-item__popular">Popularan</span>
-                <span class="cm-course-item__price">$ 12</span>
+                <span class="cm-course-item__popular">Popular</span>
+                <span class="cm-course-item__price">$ {props.price}</span>
                 <span class="cm-course-item__rating">
-                <span class="average">average rating</span>
-                {/* <i class="fa fa-star" [ngClass]="{'active': countAverageMark() >= 1 ? true : false}" aria-hidden="true"></i>
-                <i class="fa fa-star" [ngClass]="{'active': countAverageMark() >= 2 ? true : false}" aria-hidden="true"></i>
-                <i class="fa fa-star" [ngClass]="{'active': countAverageMark() >= 3 ? true : false}" aria-hidden="true"></i>
-                <i class="fa fa-star" [ngClass]="{'active': countAverageMark() >= 4 ? true : false}" aria-hidden="true"></i>
-                <i class="fa fa-star" [ngClass]="{'active': countAverageMark() == 5 ? true : false}" aria-hidden="true"></i> */}
-                <span class="count">rating count</span>
+                <span class="average">{props.averageRating}</span>
+                {
+                    runCallback(() => {
+                        const row = [];
+                        for (var i = 0; i < 5; i++) {
+                            const difference = props.averageRating - i;
+                            if (difference >= 1) {
+                                row.push(<BsStarFill />);
+                                continue;
+                            }
+                            if (difference < 1 && difference > 0) {
+                                row.push(<BsStarHalf />);
+                                continue;
+                            }
+                            row.push(<BsStar />);
+                        }
+                        return row;
+                      })
+                }
+                <span class="count">({props.numberOfRating})</span>
                 </span>
             </div>
             <div class="cm-course-item__details">
-                <h3>Course 1</h3>
+                <h3>{props.name}</h3>
                 <div class="cm-course-item__info">
                 <span>
-                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                    <a>Author</a>
+                    <FaUserTie />
+                    <NavLink to={'/author/' + props.authorUsername}>
+                        {props.authorFirstName} {props.authorLastName}
+                    </NavLink>
                 </span>
                 <span>
-                    {/* <i class="fa fa-users" aria-hidden="true"></i> */}
-                    12
+                    <FaUserGraduate />
+                    {props.numberOfStudents}
                 </span>
                 </div>
             </div>

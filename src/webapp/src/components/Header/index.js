@@ -1,11 +1,27 @@
+import { useEffect, useState } from 'react';
 import Favicon from './../../assets/img/favicon.png';
 import { NavLink } from 'react-router-dom';
 
 import SearchBar from './../SearchBar';
 
+import CategoryService from '../../services/CategoryService';
+
 import { FiShoppingCart } from 'react-icons/fi';
+import { FaAngleDown } from 'react-icons/fa';
 
 function Header() {
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(
+        () => {
+            CategoryService.getAll().then(response => {
+                setCategories(response.data);
+            });
+        },
+        []
+    );
+
     return (
         <header>
             <div className="cm-header__top">
@@ -28,12 +44,17 @@ function Header() {
                 <nav className="cm-categories">
                     <button className="cm-categories__btn">
                         Categories
-                        <i className="fa fa-angle-down" aria-hidden="true"></i>
+                        <FaAngleDown style={{ marginLeft: '.5rem' }} />
                     </button>
                     <div className="cm-categories__hidden">
                         <ul className="cm-categories__list">
-                        <li className="cm-categories__item">
-                        </li>
+                            {categories.map(category => (
+                                <li key={category.id} className="cm-categories__item">
+                                    <NavLink to="/search/categories">
+                                        {category.name}
+                                    </NavLink>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </nav>
@@ -45,7 +66,11 @@ function Header() {
                         </div>
                         <div className="cm-user__card--content">
                         <p>Your cart is empty.</p>
-                        <p>Sign In</p>
+                        <p>
+                            <NavLink to="/signin">
+                                Sign In
+                            </NavLink>
+                            </p>
                         </div>
                     </div>
                     <NavLink exact to="/signin">
@@ -113,7 +138,7 @@ function Header() {
                             checked
                             />
                             <label for="sub-menu" className="cm-navigation__label">
-                            Kategorije
+                            Categories
                             <i
                                 className="fa fa-angle-down cm-navigation__angle"
                                 aria-hidden="true"

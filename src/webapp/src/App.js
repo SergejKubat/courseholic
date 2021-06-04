@@ -2,6 +2,7 @@ import './assets/sass/app.scss'
 import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 // components
+import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -20,17 +21,19 @@ function App() {
     <div>
       <Router>
         <Header />
+        <ScrollToTop>
           <Switch>
-            <Route exact path="/home" component={HomePage} />
-            <Route exact path="/signin" component={SignInPage} />
-            <Route exact path="/signup" component={SignUpPage} />
-            <Route path="/author/:authorId" component={AuthorPage} />
-            <Route path="/course/:courseId" component={CoursePage} />
-            <Route exact path="/search" component={SearchPage} />
-            <Route path="/account/:accountId" component={AccountPage} />
-            <Route exact path="/" component={() => <Redirect to="/home" />} />
-            <Route path="*" component={ErrorPage} />
+              <Route exact path="/home" component={HomePage} />
+              <Route exact path="/signin" component={SignInPage} />
+              <Route exact path="/signup" component={SignUpPage} />
+              <Route path="/author/:username" component={AuthorPage} />
+              <Route path="/course/:courseId" component={CoursePage} />
+              <Route exact path="/search" component={SearchPage} />
+              <Route path="/account/:accountId" component={AccountPage} />
+              <Route exact path="/" component={() => <Redirect to="/home" />} />
+              <Route path="*" component={ErrorPage} />
           </Switch>
+        </ScrollToTop>
         <Footer />
       </Router>
     </div>

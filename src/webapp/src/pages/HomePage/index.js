@@ -1,23 +1,29 @@
 import { useEffect, useState } from 'react';
-import BestAuthors from '../../components/BestAuthors';
 import CategoryCard from '../../components/CategoryCard';
+import AuthorCard from '../../components/AuthorCard';
 import PopularCourses from '../../components/PopularCourses';
 import Sponsors from '../../components/Sponsors';
 
 import CategoryService from '../../services/CategoryService';
+import UserService from '../../services/UserService';
 
 import AboutUs from "./../../assets/img/about-us.jpg";
 
 function HomePage() {
 
     const [categories, setCategories] = useState([]);
+    const [authors, setAuthors] = useState([]);
 
     useEffect(
         () => {
             CategoryService.getAll().then(response => {
                 setCategories(response.data);
             });
-        }
+            UserService.getAllUsers().then(response => {
+                setAuthors(response.data.content.slice(0, 3));
+            });
+        },
+        []
     );
 
     return (
@@ -109,7 +115,25 @@ function HomePage() {
                 </div>
             </section>
 
-            <BestAuthors />
+            <section className="cm-featured-instructors">
+                <h1 className="cm-heading">
+                <span className="cm-heading__main">Learn from our best authors</span>
+                <span className="cm-heading__sub">Best Authors</span>
+                <span className="cm-heading__hr"></span>
+                <span className="cm-all-categories__hr"></span>
+                </h1>
+                <div className="cm-featured-instructors__row">
+                    {authors.map(author => (
+                        <AuthorCard 
+                        key={author.username}
+                        username={author.username}
+                        firstName={author.firstName}
+                        lastName={author.lastName}
+                        avatar={author.avatar}
+                        />
+                    ))}
+                </div>
+            </section>
 
             <Sponsors />
 

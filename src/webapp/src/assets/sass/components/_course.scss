@@ -84,11 +84,8 @@
       color: $color-review-average;
     }
 
-    & i {
+    & svg {
       margin: 0 0.2rem;
-    }
-
-    & .active {
       color: $color-review-star;
     }
 
@@ -116,7 +113,7 @@
       color: #888080;
     }
 
-    & span i {
+    & span svg {
       margin-right: 0.5rem;
     }
 
