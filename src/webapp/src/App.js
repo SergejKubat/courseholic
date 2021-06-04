@@ -26,8 +26,8 @@ function App() {
               <Route exact path="/home" component={HomePage} />
               <Route exact path="/signin" component={SignInPage} />
               <Route exact path="/signup" component={SignUpPage} />
-              <Route path="/author/:username" component={AuthorPage} />
-              <Route path="/course/:courseId" component={CoursePage} />
+              <Route exact path="/author/:username" component={AuthorPage} />
+              <Route exact path="/author/:username/courses/:courseId" component={CoursePage} />
               <Route exact path="/search" component={SearchPage} />
               <Route path="/account/:accountId" component={AccountPage} />
               <Route exact path="/" component={() => <Redirect to="/home" />} />

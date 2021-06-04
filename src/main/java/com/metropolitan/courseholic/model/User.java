@@ -26,6 +26,7 @@ public class User {
     @Email
     private String email;
     private String profession;
+    @Column(length = 1000)
     private String description;
     private String avatar;
     @Column(name = "date_created")

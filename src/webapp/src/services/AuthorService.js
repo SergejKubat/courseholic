@@ -8,6 +8,10 @@ class AuthorService {
         return axios.get(`${AUTHORS_API_URI}/${username}`);
     }
 
+    getAll() {
+        return axios.get(AUTHORS_API_URI);
+    }
+
 }
 
 export default new AuthorService();

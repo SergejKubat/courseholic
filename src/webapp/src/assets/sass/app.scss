@@ -2,6 +2,7 @@
 @import "abstract/variables";
 
 @import "base/base";
+@import "base/loader";
 @import "base/typography";
 
 @import "components/add-reviews";
@@ -18,6 +19,7 @@
 @import "layouts/footer";
 
 @import "pages/author";
+@import "pages/course-page";
 @import "pages/error";
 @import "pages/home";
 @import "pages/login";

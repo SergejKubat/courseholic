@@ -5,7 +5,7 @@ import PopularCourses from '../../components/PopularCourses';
 import Sponsors from '../../components/Sponsors';
 
 import CategoryService from '../../services/CategoryService';
-import UserService from '../../services/UserService';
+import AuthorService from '../../services/AuthorService';
 
 import AboutUs from "./../../assets/img/about-us.jpg";
 
@@ -14,13 +14,17 @@ function HomePage() {
     const [categories, setCategories] = useState([]);
     const [authors, setAuthors] = useState([]);
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(
         () => {
+            setIsLoading(true);
             CategoryService.getAll().then(response => {
                 setCategories(response.data);
+                setIsLoading(false);
             });
-            UserService.getAllUsers().then(response => {
-                setAuthors(response.data.content.slice(0, 3));
+            AuthorService.getAll().then(response => {
+                setAuthors(response.data.slice(0, 3));
             });
         },
         []
@@ -42,8 +46,9 @@ function HomePage() {
                 <span className="cm-heading__sub">Course categories</span>
                 <span className="cm-heading__hr"></span>
                 </h1>
-                <div className="cm-categories-list">
-                    {categories.map(category => (
+                {!isLoading && (
+                    <div className="cm-categories-list">
+                        {categories.map(category => (
                         <CategoryCard
                         key={category.id}
                         id={category.id}
@@ -51,7 +56,13 @@ function HomePage() {
                         image={category.image}
                         />
                     ))}
-                </div>
+                    </div>
+                )}
+                {isLoading && (
+                    <div className="cm-categories-list">
+                        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                    </div>
+                )}
             </section>
 
             <section className="cm-about">
@@ -129,6 +140,8 @@ function HomePage() {
                         username={author.username}
                         firstName={author.firstName}
                         lastName={author.lastName}
+                        profession={author.profession}
+                        description={author.description}
                         avatar={author.avatar}
                         />
                     ))}

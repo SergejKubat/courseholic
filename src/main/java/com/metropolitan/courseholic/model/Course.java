@@ -17,6 +17,7 @@ public class Course {
     @Size(min = 5, max = 150, message = "Course name length must be between 5 and 150 characters")
     private String name;
     //@Min(value = 2, message = "Course description length must be greater than 50 characters")
+    @Column(length = 1000)
     private String description;
     @Column(name = "last_updated")
     private LocalDate lastUpdated;

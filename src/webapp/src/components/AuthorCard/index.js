@@ -16,10 +16,10 @@ const AuthorCard = (props) => {
                 <Link to={'/author/' + props.username}>
                     <h3>{props.firstName} {props.lastName}</h3>
                 </Link>
-                <span>Job</span>
+                <span>{props.profession}</span>
                 <span className="cm-all-categories__hr"></span>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, soluta!
+                    {props.description.substring(0, 50) + '...'}
                 </p>
             </div>
         </div>
