@@ -8,6 +8,11 @@ import CourseTabs from '../../components/CourseTabs';
 import CourseCard from '../../components/CourseCard';
 import Modal from '../../components/Modal';
 
+import ReactPlayer from 'react-player';
+
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 
 import newCourse1 from '../../assets/img/course-rec-1.jpg';
@@ -52,6 +57,15 @@ const CoursePage = () => {
 
     const runCallback = (cb) => {
         return cb();
+    }
+
+    const notify = () => {
+        toast.info("Interested in this course? Purchase it today!", {
+            style: {fontSize: '1.6rem'},
+            transition: Zoom,
+            draggable: false,
+            autoClose: 5000
+        });
     }
 
     return (
@@ -133,11 +147,17 @@ const CoursePage = () => {
                                 </div>
 
                                 <div className="cm-course__thumbnail">
-                                    <img
-                                        src={courseDto.course.picture}
-                                        alt={courseDto.course.name}
-                                        className="cm-course__thumbnail-img"
-                                    />
+                                    <div className="cm-course__thumbnail-img">
+                                        <ReactPlayer 
+                                        url="https://www.youtube.com/watch?v=GhQdlIFylQ8&ab_channel=freeCodeCamp.org" 
+                                        controls={true} 
+                                        light={courseDto.course.picture}
+                                        width="100%"
+                                        height="70rem"
+                                        onStart={() => notify()} 
+                                        />
+                                    </div>
+                                    <ToastContainer />
                                 </div>
 
                                 <CourseTabs

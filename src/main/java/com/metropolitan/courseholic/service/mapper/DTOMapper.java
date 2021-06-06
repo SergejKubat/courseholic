@@ -169,4 +169,14 @@ public class DTOMapper {
         return authorDto;
     }
 
+    public SearchDto mapToSearchDto(Course course) {
+        SearchDto searchDto = new SearchDto();
+
+        searchDto.setAuthorUsername(course.getUser().getUsername());
+        searchDto.setCourseId(course.getId());
+        searchDto.setCourseName(course.getName());
+
+        return searchDto;
+    }
+
 }

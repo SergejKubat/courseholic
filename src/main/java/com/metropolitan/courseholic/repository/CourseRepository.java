@@ -13,4 +13,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findAllByCategoryId(long categoryId);
 
+    List<Course> findByNameStartingWithIgnoreCase(String query);
+
 }
