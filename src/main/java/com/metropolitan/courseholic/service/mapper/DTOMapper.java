@@ -5,6 +5,7 @@ import com.metropolitan.courseholic.payload.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +37,7 @@ public class DTOMapper {
         lectionDto.setName(lection.getName());
         lectionDto.setDescription(lection.getDescription());
         lectionDto.setVideo(lection.getVideo());
+        lectionDto.setLength(lection.getLength());
 
         return lectionDto;
     }
@@ -46,6 +48,8 @@ public class DTOMapper {
         reviewDto.setId(review.getId());
         reviewDto.setComment(review.getComment());
         reviewDto.setRating(review.getRating());
+        reviewDto.setDateCreated(review.getDateCreated());
+        reviewDto.setCreator(mapToUserDTO(review.getUser()));
 
         return reviewDto;
     }
@@ -104,6 +108,29 @@ public class DTOMapper {
         int numOfLections = course.getSections().stream().mapToInt(section -> section.getLections().size()).sum();
 
         courseResponse.setNumberOfLections(numOfLections);
+
+        Set<Review> reviews = course.getReviews();
+
+        int numberOfRatings = reviews.size();
+
+        int numberOfOneRating = reviews.stream().filter(review -> review.getRating() == 1).collect(Collectors.toList()).size();
+        int numberOfTwoRating = reviews.stream().filter(review -> review.getRating() == 2).collect(Collectors.toList()).size();
+        int numberOfThreeRating = reviews.stream().filter(review -> review.getRating() == 3).collect(Collectors.toList()).size();
+        int numberOfFourRating = reviews.stream().filter(review -> review.getRating() == 4).collect(Collectors.toList()).size();
+        int numberOfFiveRating = reviews.stream().filter(review -> review.getRating() == 5).collect(Collectors.toList()).size();
+
+        double percentOfOneRating = (numberOfOneRating * 1.0 / numberOfRatings) * 100;
+        double percentOfTwoRating = (numberOfTwoRating * 1.0 / numberOfRatings) * 100;
+        double percentOfThreeRating = (numberOfThreeRating * 1.0 / numberOfRatings) * 100;
+        double percentOfFourRating = (numberOfFourRating * 1.0 / numberOfRatings) * 100;
+        double percentOfFiveRating = (numberOfFiveRating * 1.0 / numberOfRatings) * 100;
+
+        courseResponse.setNumberOfRatings(numberOfRatings);
+        courseResponse.setPercentOfOneRating(percentOfOneRating);
+        courseResponse.setPercentOfTwoRating(percentOfTwoRating);
+        courseResponse.setPercentOfThreeRating(percentOfThreeRating);
+        courseResponse.setPercentOfFourRating(percentOfFourRating);
+        courseResponse.setPercentOfFiveRating(percentOfFiveRating);
 
         return courseResponse;
     }

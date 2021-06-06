@@ -1,273 +1,272 @@
 import { useParams } from "react-router";
+import { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 
 import CourseService from '../../services/CourseService';
 
+import CourseTabs from '../../components/CourseTabs';
+import CourseCard from '../../components/CourseCard';
+import Modal from '../../components/Modal';
+
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
-import { FaUserGraduate, FaLevelUpAlt, FaLanguage } from 'react-icons/fa';
-import { BiTime } from 'react-icons/bi';
-import { RiRefund2Fill } from 'react-icons/ri';
-import { useEffect } from 'react';
+
+import newCourse1 from '../../assets/img/course-rec-1.jpg';
+import newCourse2 from '../../assets/img/course-rec-2.jpg';
+import newCourse3 from '../../assets/img/course-rec-3.jpg';
+import newCourse4 from '../../assets/img/course-rec-4.jpg';
 
 const CoursePage = () => {
 
     const params = useParams();
 
+    const [courseDto, setCourseDto] = useState({
+        course: {},
+        author: {},
+        category: {},
+        language: {},
+        sections: [],
+        reviews: []
+    });
+
+    const [courseResponse, setCourseResponse] = useState([]);
+
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(
         () => {
+            setIsLoading(true);
             CourseService.getCourseById(params.username, params.courseId).then(response => {
-                console.log(response.data);
+                setCourseDto(response.data);
+                CourseService.getCoursesByCategoryId(response.data.category.id).then(response => {
+                    const allCourses = response.data.courses;
+                    const coursesWithoutCurrent = allCourses.filter(courseDtoItem => courseDtoItem.course.id !== courseDto.course.id);
+                    setCourseResponse(coursesWithoutCurrent);
+                    setIsLoading(false);
+                });
             });
         },
-        []
+        [params]
     );
+
+    const runCallback = (cb) => {
+        return cb();
+    }
 
     return (
         <section className="cm-course">
-            <div className="cm-course__container">
-                <div className="cm-course__row">
-                    <div className="cm-course__primary">
-                        <article className="cm-course__content">
 
-                        <div className="cm-course__header">
-                            <h1>Course 1</h1>
-                            <div className="cm-course__meta">
-                                <div className="cm-course__author">
-                                    <img
-                                    src="{{ autor?.AUTOR_SLIKA }}"
-                                    alt="{{ autor?.AUTOR_IME }}"
-                                    className="cm-course__author-avatar"
-                                    />
-                                    <div className="cm-course__author-contain">
-                                        <label className="cm-course__author-job">Author</label>
-                                        <div className="cm-course__author-name">
-                                            <a>Author name</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="cm-course__category">
-                                    <label>Category</label>
-                                    <div className="cm-course__category-name">
-                                    <a href="#" className="cm-course__category-link">category</a>
-                                    </div>
-                                </div>
-                                <div className="cm-course__review">
-                                    <label>Reviews</label>
-                                    <span className="cm-course__review-average">
-                                        4.5
-                                    </span>
-                                    <div className="cm-course__stars">
-                                        <p>Stars...</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="cm-course__payment">
-                                <div className="cm-course__price">
-                                    <span className="cm-course__price-old">29.99 $</span>
-                                    <span className="cm-course__price-new">11.99 $</span>
-                                </div>
-                                <div className="cm-course__button">
-                                    <button className="cm-btn">Buy Course</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="cm-course__thumbnail">
-                            <img
-                            src="http://localhost:8080/img/course-cpp.jpg"
-                            alt="Course 1"
-                            className="cm-course__thumbnail-img"
-                            />
-                        </div>
-
-                        <div className="cm-course_tabs">
-
-                            <ul className="cm-course__tabs-nav">
-                                <li className="cm-course__tabs-tab active">
-                                    <span class="cm-course__tabs-tab-text">Overview</span>
-                                </li>
-                                <li className="cm-course__tabs-tab">
-                                    <span class="cm-course__tabs-tab-text">Content</span>
-                                </li>
-                                <li className="cm-course__tabs-tab">
-                                    <span class="cm-course__tabs-tab-text">Author</span>
-                                </li>
-                                <li className="cm-course__tabs-tab">
-                                    <span class="cm-course__tabs-tab-text">Reviews</span>
-                                </li>
-                            </ul>
-
-                            <div className="cm-course__overview" style={{ display: 'flex' }}>
-                                <div className="cm-course_row">
-                                    <div className="cm-course__overview-text">
-                                        <div className="cm-course__overview-desc">
-                                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam magnam nemo non numquam autem, saepe omnis culpa libero hic consequatur repellat placeat voluptas dignissimos incidunt aspernatur fugit accusantium et ducimus. Aliquid accusantium quis recusandae incidunt repellat amet, cupiditate optio dolorum ipsam ut voluptate aspernatur, nostrum nemo adipisci quae vero accusamus.</p>
-                                        </div>
-                                    </div>
-                                    <div className="cm-course__overview-info">
-                                        <h3>Characteristics</h3>
-                                        <ul>
-                                            <li>
-                                                <FaUserGraduate />
-                                                <span className="cm-course__overview-info-label">Studenti</span>
-                                                <span className="cm-course__overview-info-value">23</span>
-                                            </li>
-                                            <li>
-                                                <BiTime />
-                                                <span className="cm-course__overview-info-label">Duration</span>
-                                                <span className="cm-course__overview-info-value">22h 5m</span>
-                                            </li>
-                                            <li>
-                                                <FaLevelUpAlt />
-                                                <span className="cm-course__overview-info-label">Skills</span>
-                                                <span className="cm-course__overview-info-value">Category</span>
-                                            </li>
-                                            <li>
-                                                <FaLanguage />
-                                                <span className="cm-course__overview-info-label">Language</span>
-                                                <span className="cm-course__overview-info-value">language</span>
-                                            </li>
-                                            <li>
-                                                <RiRefund2Fill />
-                                                <span className="cm-course__overview-info-label">Refunds</span>
-                                                <span className="cm-course__overview-info-value">1 month</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="cm-course__content2">
-                                <p className="cm-course__content2-heading">Course content</p>
-                                <p>....</p>
-                            </div>
-
-                            <div className="cm-course__author-info">
-                                <h3 className="cm-course__author-info-heading">Autor</h3>
-                                <div className="cm-course__author-info-row">
-                                <div className="cm-course__author-info-avatar">
-                                    <img
-                                        src="http://localhost:8080/img/author-3.jpg"
-                                        alt="Author"
-                                        className="cm-course__author-info-img"
-                                    />
-                                </div>
-                                <div className="cm-course__author-info-content">
-                                    <h3 className="cm-course__author-info-name">Author name</h3>
-                                    <p className="cm-course__author-info-details">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, culpa labore? At officia totam, animi quisquam molestias doloremque vitae! Sapiente?</p>
-                                    <button className="cm-btn">Details</button>
-                                </div>
-                                </div>
-                            </div>
-
-                            <div className="cm-course__reviews">
-                                <h3 className="cm-course__reviews-heading">Course reviews</h3>
-                                <p className="cm-course__reviews-average">Average rating...</p>
-                                <div classNameName="cm-course__reviews-rate"></div>
-                            </div>
-                            </div>
-
-                            <div className="cm-course__related">
-                                <h3 className="cm-course__related-heading">Related courses</h3>
-                                <div className="cm-course__related-list">
-                                    <div>
-                                        <p>courses</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <aside className="cm-course__secondary">
-                        <article className="cm-course__recent-courses">
-                        <h3>Newest courses</h3>
-                        <div className="cm-course__recent-courses-content">
-                            <div className="cm-course__recent-courses-course">
-                            <div className="cm-course__recent-courses-thumb">
-                                <img
-                                src="../../assets/img/course-rec-1.jpg"
-                                alt="UX/UI Principi"
-                                className="cm-course__recent-courses-img"
-                                />
-                            </div>
-                            <div className="cm-course__recent-courses-detail">
-                                <h2 className="cm-course__recent-courses-title">UX/UI Principi</h2>
-                                <div className="cm-course__recent-courses-meta">
-                                <div className="cm-course__recent-courses-price">$18.99</div>
-                                </div>
-                            </div>
-                            </div>
-                            <div className="cm-course__recent-courses-course">
-                            <div className="cm-course__recent-courses-thumb">
-                                <img
-                                src="../assets/img/course-rec-2.jpg"
-                                alt="Audio produkcija"
-                                className="cm-course__recent-courses-img"
-                                />
-                            </div>
-                            <div className="cm-course__recent-courses-detail">
-                                <h2 className="cm-course__recent-courses-title">
-                                Audio produkcija
-                                </h2>
-                                <div className="cm-course__recent-courses-meta">
-                                <div className="cm-course__recent-courses-price">$11.99</div>
-                                </div>
-                            </div>
-                            </div>
-                            <div className="cm-course__recent-courses-course">
-                            <div className="cm-course__recent-courses-thumb">
-                                <img
-                                src="../assets/img/course-rec-3.jpg"
-                                alt="Java za početnike"
-                                className="cm-course__recent-courses-img"
-                                />
-                            </div>
-                            <div className="cm-course__recent-courses-detail">
-                                <h2 className="cm-course__recent-courses-title">
-                                Java za početnike
-                                </h2>
-                                <div className="cm-course__recent-courses-meta">
-                                <div className="cm-course__recent-courses-price">$9.99</div>
-                                </div>
-                            </div>
-                            </div>
-                            <div className="cm-course__recent-courses-course">
-                            <div className="cm-course__recent-courses-thumb">
-                                <img
-                                src="../assets/img/course-rec-4.jpg"
-                                alt="Osnove marketinga"
-                                className="cm-course__recent-courses-img"
-                                />
-                            </div>
-                            <div className="cm-course__recent-courses-detail">
-                                <h2 className="cm-course__recent-courses-title">
-                                Osnove marketinga
-                                </h2>
-                                <div className="cm-course__recent-courses-meta">
-                                <div className="cm-course__recent-courses-price">$15.99</div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </article>
-                        <article className="cm-course__ba">
-                        <div className="cm-course__ba-content">
-                            <h4 className="cm-course__ba-heading">Bemoce an author</h4>
-                            <div className="cm-course__ba-text">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has been the industry’s standard dummy text
-                            ever since. It is a long established fact that a reader will be
-                            distracted by the readable content of a page when looking at its
-                            layout.
-                            </div>
-                            <button className="cm-course__ba-btn">Priključite se</button>
-                        </div>
-                        </article>
-                    </aside>
+            {isLoading && (
+                <div className="cm-categories-list">
+                    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                 </div>
-            </div>
+            )}
+
+            {!isLoading && (
+                <div className="cm-course__container">
+                    <div className="cm-course__row">
+                        <div className="cm-course__primary">
+                            <article className="cm-course__content">
+
+                                <div className="cm-course__header">
+                                    <h1>{courseDto.course.name}</h1>
+                                    <div className="cm-course__meta">
+                                        <div className="cm-course__author">
+                                            <img
+                                                src={courseDto.author.avatar}
+                                                alt={courseDto.author.username}
+                                                className="cm-course__author-avatar"
+                                            />
+                                            <div className="cm-course__author-contain">
+                                                <label className="cm-course__author-job">Author</label>
+                                                <div className="cm-course__author-name">
+                                                    <Link to={'/author/' + courseDto.author.username}>
+                                                        {courseDto.author.firstName + ' ' + courseDto.author.lastName}
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="cm-course__category">
+                                            <label>Category</label>
+                                            <div className="cm-course__category-name">
+                                                <a href="#" className="cm-course__category-link">{courseDto.category.name}</a>
+                                            </div>
+                                        </div>
+                                        <div className="cm-course__review">
+                                            <label>Reviews ({courseDto.numberOfRatings})</label>
+                                            <span className="cm-course__review-average">
+                                                {courseDto.averageRating}
+                                            </span>
+                                            <div className="cm-course__stars">
+                                                {
+                                                    runCallback(() => {
+                                                        const row = [];
+                                                        for (var i = 0; i < 5; i++) {
+                                                            const difference = courseDto.averageRating - i;
+                                                            if (difference >= 1) {
+                                                                row.push(<BsStarFill />);
+                                                                continue;
+                                                            }
+                                                            if (difference < 1 && difference > 0) {
+                                                                row.push(<BsStarHalf />);
+                                                                continue;
+                                                            }
+                                                            row.push(<BsStar />);
+                                                        }
+                                                        return row;
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="cm-course__payment">
+                                        <div className="cm-course__price">
+                                            <span className="cm-course__price-old">29.99 $</span>
+                                            <span className="cm-course__price-new">{courseDto.course.price} $</span>
+                                        </div>
+                                        <div className="cm-course__button">
+                                            <button className="cm-btn" onClick={() => setIsErrorVisible(true)}>Buy Course</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="cm-course__thumbnail">
+                                    <img
+                                        src={courseDto.course.picture}
+                                        alt={courseDto.course.name}
+                                        className="cm-course__thumbnail-img"
+                                    />
+                                </div>
+
+                                <CourseTabs
+                                    courseDto={courseDto}
+                                />
+
+                                <div className="cm-course__related">
+                                    <h3 className="cm-course__related-heading">Related courses</h3>
+                                    <div className="cm-course__related-list">
+                                        {courseResponse.map(courseRes => (
+                                            <CourseCard
+                                                key={courseRes.course.id}
+                                                id={courseRes.course.id}
+                                                name={courseRes.course.name}
+                                                picture={courseRes.course.picture}
+                                                price={courseRes.course.price}
+                                                averageRating={courseRes.averageRating}
+                                                numberOfRating={courseRes.numberOfRating}
+                                                authorUsername={courseRes.author.username}
+                                                authorFirstName={courseRes.author.firstName}
+                                                authorLastName={courseRes.author.lastName}
+                                                numberOfStudents={courseRes.numberOfStudents}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+
+                            </article>
+                        </div>
+
+                        <aside className="cm-course__secondary">
+                            <article className="cm-course__recent-courses">
+                                <h3>Newest courses</h3>
+                                <div className="cm-course__recent-courses-content">
+                                    <div className="cm-course__recent-courses-course">
+                                        <div className="cm-course__recent-courses-thumb">
+                                            <img
+                                                src={newCourse1}
+                                                alt="UX/UI Principles"
+                                                className="cm-course__recent-courses-img"
+                                            />
+                                        </div>
+                                        <div className="cm-course__recent-courses-detail">
+                                            <h2 className="cm-course__recent-courses-title">UX/UI Principles</h2>
+                                            <div className="cm-course__recent-courses-meta">
+                                                <div className="cm-course__recent-courses-price">$18.99</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="cm-course__recent-courses-course">
+                                        <div className="cm-course__recent-courses-thumb">
+                                            <img
+                                                src={newCourse2}
+                                                alt="Audio production"
+                                                className="cm-course__recent-courses-img"
+                                            />
+                                        </div>
+                                        <div className="cm-course__recent-courses-detail">
+                                            <h2 className="cm-course__recent-courses-title">
+                                                Audio production
+                                    </h2>
+                                            <div className="cm-course__recent-courses-meta">
+                                                <div className="cm-course__recent-courses-price">$11.99</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="cm-course__recent-courses-course">
+                                        <div className="cm-course__recent-courses-thumb">
+                                            <img
+                                                src={newCourse3}
+                                                alt="Java for beginners"
+                                                className="cm-course__recent-courses-img"
+                                            />
+                                        </div>
+                                        <div className="cm-course__recent-courses-detail">
+                                            <h2 className="cm-course__recent-courses-title">
+                                                Java for beginners
+                                    </h2>
+                                            <div className="cm-course__recent-courses-meta">
+                                                <div className="cm-course__recent-courses-price">$9.99</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="cm-course__recent-courses-course">
+                                        <div className="cm-course__recent-courses-thumb">
+                                            <img
+                                                src={newCourse4}
+                                                alt="Marketing basics"
+                                                className="cm-course__recent-courses-img"
+                                            />
+                                        </div>
+                                        <div className="cm-course__recent-courses-detail">
+                                            <h2 className="cm-course__recent-courses-title">
+                                                Marketing basics
+                                    </h2>
+                                            <div className="cm-course__recent-courses-meta">
+                                                <div className="cm-course__recent-courses-price">$15.99</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <article className="cm-course__ba">
+                                <div className="cm-course__ba-content">
+                                    <h4 className="cm-course__ba-heading">Bemoce an author</h4>
+                                    <div className="cm-course__ba-text">
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting
+                                        industry. Lorem Ipsum has been the industry’s standard dummy text
+                                        ever since. It is a long established fact that a reader will be
+                                        distracted by the readable content of a page when looking at its
+                                        layout.
+                                </div>
+                                    <button className="cm-course__ba-btn">Join Us</button>
+                                </div>
+                            </article>
+                        </aside>
+                    </div>
+                </div>
+            )}
+
+            {isErrorVisible && <Modal
+                heading='You are not signed in!'
+                message="You must sign in to purchase this course."
+                btnText="Sign In"
+                btnLink="/signin"
+                closeMethod={setIsErrorVisible}
+            />}
         </section>
     );
 }
- 
+
 export default CoursePage;

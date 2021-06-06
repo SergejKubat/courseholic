@@ -22,5 +22,11 @@ public class CourseResponse {
     private long numberOfStudents;
     private int numberOfSections;
     private int numberOfLections;
+    private int numberOfRatings;
+    private double percentOfOneRating;
+    private double percentOfTwoRating;
+    private double percentOfThreeRating;
+    private double percentOfFourRating;
+    private double percentOfFiveRating;
 
 }

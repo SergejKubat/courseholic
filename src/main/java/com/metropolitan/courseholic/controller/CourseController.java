@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/")
 public class CourseController {
 
@@ -25,16 +24,19 @@ public class CourseController {
     }
 
     @PreAuthorize("hasAuthority('AUTHOR')")
+    @CrossOrigin
     @PostMapping("/users/{username}/courses")
     public ResponseEntity<CourseDto> createCourse(@PathVariable(value = "username") String username, @Valid @RequestBody CourseDto courseDto) {
         return new ResponseEntity<>(courseService.createCourse(username, 1, 1, courseDto), HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @GetMapping("/users/{username}/courses")
     public List<CourseResponse> findCoursesByUserId(@PathVariable(value = "username") String username) {
         return courseService.findAllByUserUsername(username);
     }
 
+    @CrossOrigin
     @GetMapping("/courses")
     public CourseListDto findAll(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -45,6 +47,7 @@ public class CourseController {
         return courseService.findAll(pageNo, pageSize, sortBy, sortDir, categoryId);
     }
 
+    @CrossOrigin
     @GetMapping("/users/{username}/courses/{courseId}")
     public ResponseEntity<CourseResponse> getCourseById(@PathVariable(value = "username") String username,
                                                         @PathVariable(value = "courseId") long courseId) {
@@ -53,6 +56,7 @@ public class CourseController {
     }
 
     @PreAuthorize("hasAuthority('AUTHOR')")
+    @CrossOrigin
     @PutMapping("/users/{username}/courses/{courseId}")
     public ResponseEntity<CourseDto> updateCourse(@PathVariable(value = "username") String username,
                                                   @PathVariable(value = "courseId") long courseId,
@@ -62,6 +66,7 @@ public class CourseController {
     }
 
     @PreAuthorize("hasAuthority('AUTHOR')")
+    @CrossOrigin
     @DeleteMapping("/users/{username}/courses/{courseId}")
     public ResponseEntity<String> deleteCourse(@PathVariable(value = "username") String username,
                                                @PathVariable(value = "courseId") long courseId) {

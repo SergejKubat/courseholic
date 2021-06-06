@@ -1,25 +1,30 @@
-const Section = () => {
+import Lection from '../Lection';
+
+import { AiOutlinePlus } from 'react-icons/ai';
+
+const Section = (props) => {
+
     return (
         <div class="cm-course__content2-collapsible">
             <input
                 type="checkbox"
-                id="{{ sekcija.SEKCIJA_NASLOV }}"
+                id={props.sectionDto.section.name}
                 class="cm-course__content2-collapsible-checkbox"
             />
-            <label for="{{ sekcija.SEKCIJA_NASLOV }}" class="cm-course__content2-collapsible-label">
+            <label for={props.sectionDto.section.name} class="cm-course__content2-collapsible-label">
                 <div class="cm-course__content2-collapsible-header">
-                <h1 class="cm-course__content2-collapsible-heading">Section 1</h1>
-                <i
-                    class="fa fa-plus cm-course__content2-collapsible-icon"
-                    aria-hidden="true"
-                ></i>
+                <h1 class="cm-course__content2-collapsible-heading">{props.sectionDto.section.name}</h1>
+                <AiOutlinePlus className="cm-course__content2-collapsible-icon" />
                 </div>
             </label>
             <div class="cm-course__content2-collapsible-content">
                 <ul class="cm-course__content2-collapsible-list">
-                {/* <div *ngFor="let lekcija of lekcije">
-                        <app-lesson [lekcija]="lekcija"></app-lesson>
-                    </div> */}
+                {props.sectionDto.lections.map(lection => (
+                    <Lection
+                    key={lection.id}
+                    lection={lection} 
+                    />
+                ))}
                 </ul>
             </div>
         </div>

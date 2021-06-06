@@ -7,20 +7,40 @@
     }
   
     &-info {
+      position: relative;
       display: flex;
       flex-wrap: wrap;
     }
   
-    &-avatar {
-      flex: 0 0 20%;
-      max-width: 20%;
+    &-creator {
+      display: flex;
+      align-items: center;
+      flex: 0 0 30%;
+      max-width: 30%;
       margin-right: 2rem;
+      line-height: 1.4;
+    }
+
+    &-creator__details {
+      padding-left: 1rem;
+    }
+
+    &-creator__username {
+      font-size: 1.4rem;
+      color: $color-text-1;
     }
   
     &-img {
       height: 7rem;
       width: 7rem;
       border-radius: 50%;
+    }
+
+    &-date {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 1.4rem;
     }
   
     &-details {
@@ -33,16 +53,14 @@
     }
   
     &-stars {
-      margin-bottom: 1rem;
+      margin: 1rem 0;
       font-size: 1.6rem;
     }
   
-    &-stars .active {
-      color: $color-review-star;
-    }
-  
-    &-stars .fa {
+    &-stars svg {
       padding: 0 0.1rem;
+      font-size: 2rem;
+      color: $color-review-star;
     }
   
     &-content {

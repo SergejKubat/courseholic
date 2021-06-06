@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const COURSES_AUTHOR_API_URI = "http://localhost:8080/api/user";
+const COURSES_AUTHOR_API_URI = "http://localhost:8080/api/users";
 const COURSES_API_URI = "http://localhost:8080/api/courses";
 
 class CourseService {

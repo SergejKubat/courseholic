@@ -1,16 +1,37 @@
-const Lection = () => {
+import { useState } from 'react';
+import { AiFillPlayCircle } from 'react-icons/ai';
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+
+const Lection = (props) => {
+
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
+    const toggleCollapse = () => {
+        if (isCollapsed) {
+            setIsCollapsed(false);
+            return;
+        }
+        setIsCollapsed(true);
+    }
+
     return (
-        <li class="cm-course__content2-collapsible-item">
-            <div class="cm-course__content2-collapsible-video">
+        <li className="cm-course__content2-collapsible-item">
+            <div className="cm-course__content2-collapsible-video" onClick={() => toggleCollapse()}>
                 <div>
-                <i
-                    class="fa fa-play-circle cm-course__content2-collapsible-video-play"
-                    aria-hidden="true"
-                ></i>
-                <p class="cm-course__content2-collapsible-video-name">Lection 1</p>
+                    <AiFillPlayCircle className="cm-course__content2-collapsible-video-play" />
+                    <p className="cm-course__content2-collapsible-video-name">{props.lection.name}</p>
                 </div>
-                <p class="cm-course__content2-collapsible-video-length">06:33</p>
+                <div className="cm-course__content2-collapsible-video-right">
+                    <p className="cm-course__content2-collapsible-video-length">{props.lection.length}</p>
+                    {!isCollapsed && <FaAngleDown className="cm-course__content2-collapsible-video-icons" />}
+                    {isCollapsed && <FaAngleUp className="cm-course__content2-collapsible-video-icons" />}
+                </div>
             </div>
+            {isCollapsed && (
+                <div className="cm-course__content2-collapsible-video-desc">
+                    {props.lection.description}
+                </div>
+            )}
         </li>
     );
 }

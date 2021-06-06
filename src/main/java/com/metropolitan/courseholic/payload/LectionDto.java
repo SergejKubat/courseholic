@@ -9,5 +9,6 @@ public class LectionDto {
     private String name;
     private String description;
     private String video;
+    private String length;
 
 }

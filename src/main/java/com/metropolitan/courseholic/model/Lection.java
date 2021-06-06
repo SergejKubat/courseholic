@@ -16,6 +16,7 @@ public class Lection {
     private String description;
     @NotBlank(message = "Lection video is mandatory")
     private String video;
+    private String length;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id", nullable = false)
     private Section section;
@@ -23,10 +24,11 @@ public class Lection {
     public Lection() {
     }
 
-    public Lection(String name, String description, String video, Section section) {
+    public Lection(String name, String description, String video, String length, Section section) {
         this.name = name;
         this.description = description;
         this.video = video;
+        this.length = length;
         this.section = section;
     }
 
@@ -60,6 +62,14 @@ public class Lection {
 
     public void setVideo(String video) {
         this.video = video;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
     }
 
     public Section getSection() {

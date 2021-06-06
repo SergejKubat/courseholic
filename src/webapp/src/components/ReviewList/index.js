@@ -1,14 +1,22 @@
-const ReviewList = () => {
+import Review from '../Review';
+
+const ReviewList = (props) => {
+
     return (
-        <div class="cm-course__reviews-comments">
-            <h3 class="cm-course__reviews-heading">Reviews</h3>
-            <ul class="cm-course__reviews-comments-list">
-                <div>
-                {/* <app-review [ocena]="ocena" (deleteReviewEvent)="removeOcena($event)"></app-review> */}
-                </div>
+        <div className="cm-course__reviews-comments">
+            <h3 className="cm-course__reviews-heading">List of reviews</h3>
+            <ul className="cm-course__reviews-comments-list">
+            <div>
+                {props.reviews.map(review => (
+                    <Review
+                    key={review.id}
+                    review={review}
+                    />
+                ))}
+            </div>
             </ul>
             <div>
-                {/* <app-create-review [kurs]="kurs" (newReviewEvent)="addOcena($event)"></app-create-review> */}
+                
             </div>
         </div>
     );

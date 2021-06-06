@@ -19,7 +19,7 @@ const CourseCard = (props) => {
                 />
                 <div class="cm-course-item__hidden">
                 <button class="cm-btn">
-                    <NavLink to={'/course/' + props.id}>
+                    <NavLink to={'/author/' + props.authorUsername + '/courses/' + props.id}>
                         Details
                     </NavLink>
                 </button>
