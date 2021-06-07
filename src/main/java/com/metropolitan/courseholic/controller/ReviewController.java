@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/")
 public class ReviewController {
 
@@ -19,22 +18,26 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
+    @CrossOrigin
     @PostMapping("/courses/{courseId}/reviews")
     public ResponseEntity<ReviewDto> createReview(@PathVariable(value = "courseId") long courseId,
                                                   @RequestBody ReviewDto reviewDto) {
         return new ResponseEntity<>(reviewService.createReview(courseId, reviewDto), HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @GetMapping("/users/{username}/reviews")
     public List<ReviewDto> findAllByUsername(@PathVariable(value = "username") String username) {
         return reviewService.findAllByUsername(username);
     }
 
+    @CrossOrigin
     @GetMapping("/courses/{courseId}/reviews")
     public List<ReviewDto> findAllByCourseId(@PathVariable(value = "courseId") long courseId) {
         return reviewService.findAllByCourseId(courseId);
     }
 
+    @CrossOrigin
     @PutMapping("/courses/{courseId}/reviews/{reviewId}")
     public ResponseEntity<ReviewDto> updateReview(@PathVariable(value = "courseId") long courseId,
                                                   @PathVariable(value = "reviewId") long reviewId,
@@ -43,6 +46,7 @@ public class ReviewController {
         return new ResponseEntity<>(updatedReview, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @DeleteMapping("/courses/{courseId}/reviews/{reviewId}")
     public ResponseEntity<String> deleteReview(@PathVariable(value = "courseId") long courseId,
                                                   @PathVariable(value = "reviewId") long reviewId) {

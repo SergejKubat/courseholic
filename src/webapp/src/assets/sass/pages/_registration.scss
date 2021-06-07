@@ -15,7 +15,7 @@
     }
   
     &__content {
-      margin: 9rem 0;
+      margin: 3rem 0;
       flex: 0 0 41.666667%;
       max-width: 41.666667%;
       padding: 0 1.5rem;
@@ -146,6 +146,13 @@
   
     &__error {
       font-size: 1.2rem;
+      color: $color-primary;
+    }
+
+    &__error-signup {
+      margin: 1rem 0;
+      font-size: 1.6rem;
+      text-align: center;
       color: $color-primary;
     }
   }

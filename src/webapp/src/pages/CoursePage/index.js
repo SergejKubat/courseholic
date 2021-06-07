@@ -62,9 +62,9 @@ const CoursePage = () => {
     const notify = () => {
         toast.info("Interested in this course? Purchase it today!", {
             style: {fontSize: '1.6rem'},
-            transition: Zoom,
             draggable: false,
-            autoClose: 5000
+            autoClose: 5000,
+            position: toast.POSITION.TOP_CENTER
         });
     }
 

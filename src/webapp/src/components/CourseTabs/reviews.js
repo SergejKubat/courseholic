@@ -1,4 +1,5 @@
 import ReviewList from '../ReviewList';
+import CreateReview from '../CreateReview';
 
 import { BsStarFill, BsStar } from 'react-icons/bs';
 
@@ -65,6 +66,9 @@ const CourseReviews = (props) => {
             <ReviewList
                 key={props.courseDto.course.id}
                 reviews={props.courseDto.reviews}
+            />
+            <CreateReview
+            courseId={props.courseDto.course.id}
             />
         </div>
     );

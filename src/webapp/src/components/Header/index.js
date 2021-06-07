@@ -97,69 +97,69 @@ function Header() {
                         id="menu"
                         className="cm-navigation__checkbox"
                     />
-                    <label for="menu" className="cm-navigation__label">
+                    <label htmlFor="menu" className="cm-navigation__label">
                         <div className="cm-navigation__button">
                         <span className="cm-navigation__icon"></span>
                         </div>
                     </label>
                     <div className="cm-navigation__items">
                         <ul className="cm-navigation__list">
-                        <li className="cm-navigation__item">
-                            <form className="cm-search__form-small">
-                            <input
-                                type="text"
-                                name="q"
-                                placeholder="Pretražite kurseve"
-                                value=""
-                                className="cm-search__input-small"
-                                autoComplete="off"
-                                required
-                            />
-                            </form>
-                        </li>
-                        <li className="cm-navigation__item">
-                            <NavLink exact to="/home">Home</NavLink>
-                        </li>
-                        <li className="cm-navigation__item">
-                            <a className="cm-navigation__flex">
-                            <img
-                                src="bla"
-                                alt=""
-                                className="cm-user__avatar-small"
-                            />
-                            <span className="cm-user__name">username</span>
-                            </a>
-                        </li>
-                        <li className="cm-navigation__item">
-                            <input
-                            type="checkbox"
-                            id="sub-menu"
-                            className="cm-navigation__checkbox"
-                            checked
-                            />
-                            <label for="sub-menu" className="cm-navigation__label">
-                            Categories
-                            <i
-                                className="fa fa-angle-down cm-navigation__angle"
-                                aria-hidden="true"
-                            ></i>
-                            </label>
-                            <ul className="cm-navigation__sub-list">
-                            <li
-                                className="cm-navigation__sub-item">
-                                
+                            <li className="cm-navigation__item">
+                                <form className="cm-search__form-small">
+                                <input
+                                    type="text"
+                                    name="q"
+                                    placeholder="Pretražite kurseve"
+                                    className="cm-search__input-small"
+                                    autoComplete="off"
+                                    required
+                                />
+                                </form>
                             </li>
-                            </ul>
-                        </li>
-                        <li className="cm-navigation__item">
-                            <NavLink exact to="/signin">Sign In</NavLink>
-                        </li>
-                        <li className="cm-navigation__item">
-                            <NavLink exact to="/signup">Sign Up</NavLink>
-                        </li>
+                            <li className="cm-navigation__item">
+                                <NavLink exact to="/home">Home</NavLink>
+                            </li>
+                            <li className="cm-navigation__item">
+                                <a className="cm-navigation__flex">
+                                <img
+                                    src="bla"
+                                    alt=""
+                                    className="cm-user__avatar-small"
+                                />
+                                <span className="cm-user__name">username</span>
+                                </a>
+                            </li>
+                            <li className="cm-navigation__item">
+                                <input
+                                type="checkbox"
+                                id="sub-menu"
+                                className="cm-navigation__checkbox"
+                                checked
+                                onChange={() => console.log('changed')}
+                                />
+                                <label htmlFor="sub-menu" className="cm-navigation__label">
+                                Categories
+                                <i
+                                    className="fa fa-angle-down cm-navigation__angle"
+                                    aria-hidden="true"
+                                ></i>
+                                </label>
+                                <ul className="cm-navigation__sub-list">
+                                <li
+                                    className="cm-navigation__sub-item">
+                                    
+                                </li>
+                                </ul>
+                            </li>
+                            <li className="cm-navigation__item">
+                                <NavLink exact to="/signin">Sign In</NavLink>
+                            </li>
+                            <li className="cm-navigation__item">
+                                <NavLink exact to="/signup">Sign Up</NavLink>
+                            </li>
                         </ul>
                     </div>
-                    </div>
+                </div>
 
             </div>
         </header>
