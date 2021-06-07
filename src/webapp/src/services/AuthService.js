@@ -8,8 +8,35 @@ class AuthService {
         return axios.post(`${AUTH_API_URI}/signup`, data);
     }
 
-    signIn(data) {
+    signIn(data, callback) {
+        axios.post(`${AUTH_API_URI}/signin`, data).then(response => {
+            if (response.status === 200) {
+                const token = response.data.accessToken;
+                localStorage.setItem('token', token);
+                axios.get(`${AUTH_API_URI}/details`, { headers: { Authorization: 'Bearer ' + token } }).then(response => {
+                    const userDetails = response.data;
+                    localStorage.setItem('user', JSON.stringify(userDetails));
+                    this.authenticated = true;
+                    callback(true);
+                });
+            }
+        }).catch(error => {
+            callback(false);
+        });
+    }
 
+    signOut(callback) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        callback();
+    }
+
+    getCurrentUser() {
+        return JSON.parse(localStorage.getItem('user'));
+    }
+
+    isAuthenticated() {
+        return localStorage.getItem('token') != null;
     }
 
 }

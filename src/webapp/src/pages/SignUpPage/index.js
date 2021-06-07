@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AuthService from '../../services/AuthService';
 
-const { Link, useHistory } = require("react-router-dom")
+const { Link, useHistory, Redirect } = require("react-router-dom");
 
 const SignUpPage = () => {
 
@@ -39,12 +39,16 @@ const SignUpPage = () => {
         AuthService.signUp(data).then(response => {
             const statusCode = response.status;
             if (statusCode === 200) {
-                history.push('/signin');
+                history.push(`/signin?signedUpSuccessfully=true&firstName=${firstName}&lastName=${lastName}`);
             }
         }).catch(error => {
             setSignUpError(true);
             setSignUpErrorMessage(error.response.data);
         });
+    }
+
+    if (AuthService.isAuthenticated()) {
+        return <Redirect to="/account" />;
     }
 
     return (

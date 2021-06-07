@@ -10,7 +10,7 @@ import Modal from '../../components/Modal';
 
 import ReactPlayer from 'react-player';
 
-import { ToastContainer, toast, Zoom } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';

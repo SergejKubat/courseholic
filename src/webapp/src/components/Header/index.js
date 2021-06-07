@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import Favicon from './../../assets/img/favicon.png';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 
 import SearchBar from './../SearchBar';
 
 import CategoryService from '../../services/CategoryService';
+import AuthService from '../../services/AuthService';
 
 import { FiShoppingCart } from 'react-icons/fi';
 import { FaAngleDown } from 'react-icons/fa';
 
 function Header() {
+
+    const history = useHistory();
 
     const [categories, setCategories] = useState([]);
 
@@ -21,6 +24,11 @@ function Header() {
         },
         []
     );
+
+    const logOut = () => {
+        history.push('/home');
+        window.location.reload();
+    }
 
     return (
         <header>
@@ -67,28 +75,38 @@ function Header() {
                         <div className="cm-user__card--content">
                         <p>Your cart is empty.</p>
                         <p>
-                            <NavLink to="/signin">
-                                Sign In
-                            </NavLink>
+                            {!AuthService.isAuthenticated() && (
+                                <NavLink to="/signin">
+                                    Sign In
+                                </NavLink>
+                            )}
                             </p>
                         </div>
                     </div>
-                    <NavLink exact to="/signin">
-                        <button className="cm-btn">Sign In</button>
-                    </NavLink>
-                    <NavLink exact to="/signup">
-                        <button className="cm-btn">Sign Up</button>
-                    </NavLink>
-                    {/* <a>
-                        <img
-                        src="avatar"
-                        alt=""
-                        className="cm-user__avatar"
-                        />
-                    </a> */}
-                    <button className="cm-btn">
-                        Log Out
-                    </button>
+                    {!AuthService.isAuthenticated() && (
+                        <NavLink exact to="/signin">
+                            <button className="cm-btn">Sign In</button>
+                        </NavLink>
+                    )}
+                    {!AuthService.isAuthenticated() && (
+                        <NavLink exact to="/signup">
+                            <button className="cm-btn">Sign Up</button>
+                        </NavLink>
+                    )}
+                    {AuthService.isAuthenticated() && (
+                        <Link to="/account">
+                            <img 
+                            src="http://localhost:8080/img/user.png" 
+                            alt="user" 
+                            className="cm-user__avatar" 
+                            />
+                        </Link>
+                    )}
+                    {AuthService.isAuthenticated() && (
+                        <button className="cm-btn" onClick={() => AuthService.signOut(logOut)}>
+                            Log Out
+                        </button>
+                    )}
                 </div>
 
                 <div className="cm-navigation">
@@ -151,12 +169,20 @@ function Header() {
                                 </li>
                                 </ul>
                             </li>
-                            <li className="cm-navigation__item">
-                                <NavLink exact to="/signin">Sign In</NavLink>
-                            </li>
-                            <li className="cm-navigation__item">
-                                <NavLink exact to="/signup">Sign Up</NavLink>
-                            </li>
+                            {!AuthService.isAuthenticated() && (
+                                <li className="cm-navigation__item">
+                                    <NavLink exact to="/signin">
+                                        Sign In
+                                    </NavLink>
+                                </li>
+                            )}
+                            {!AuthService.isAuthenticated() && (
+                                <li className="cm-navigation__item">
+                                    <NavLink exact to="/signup">
+                                        Sign Up
+                                    </NavLink>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>

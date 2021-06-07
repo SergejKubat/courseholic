@@ -89,6 +89,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getUserDetails() {
+        User user = userRepository.findById(SecurityUtils.getCurrentUserUsername()).get();
+
+        return dtoMapper.mapToUserDTO(user);
+    }
+
+    @Override
     public UserDto updateUser(UserDto userDto, String username) {
 
         if (!checkUser(username)) {

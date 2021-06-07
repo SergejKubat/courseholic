@@ -19,26 +19,26 @@ public class ReviewController {
     }
 
     @CrossOrigin
-    @PostMapping("/courses/{courseId}/reviews")
+    @PostMapping("courses/{courseId}/reviews")
     public ResponseEntity<ReviewDto> createReview(@PathVariable(value = "courseId") long courseId,
                                                   @RequestBody ReviewDto reviewDto) {
         return new ResponseEntity<>(reviewService.createReview(courseId, reviewDto), HttpStatus.CREATED);
     }
 
     @CrossOrigin
-    @GetMapping("/users/{username}/reviews")
+    @GetMapping("users/{username}/reviews")
     public List<ReviewDto> findAllByUsername(@PathVariable(value = "username") String username) {
         return reviewService.findAllByUsername(username);
     }
 
     @CrossOrigin
-    @GetMapping("/courses/{courseId}/reviews")
+    @GetMapping("courses/{courseId}/reviews")
     public List<ReviewDto> findAllByCourseId(@PathVariable(value = "courseId") long courseId) {
         return reviewService.findAllByCourseId(courseId);
     }
 
     @CrossOrigin
-    @PutMapping("/courses/{courseId}/reviews/{reviewId}")
+    @PutMapping("courses/{courseId}/reviews/{reviewId}")
     public ResponseEntity<ReviewDto> updateReview(@PathVariable(value = "courseId") long courseId,
                                                   @PathVariable(value = "reviewId") long reviewId,
                                                   @RequestBody ReviewDto reviewDto) {
@@ -47,7 +47,7 @@ public class ReviewController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/courses/{courseId}/reviews/{reviewId}")
+    @DeleteMapping("courses/{courseId}/reviews/{reviewId}")
     public ResponseEntity<String> deleteReview(@PathVariable(value = "courseId") long courseId,
                                                   @PathVariable(value = "reviewId") long reviewId) {
         reviewService.deleteReview(courseId, reviewId);

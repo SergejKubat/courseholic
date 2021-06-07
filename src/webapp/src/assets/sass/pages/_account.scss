@@ -1,0 +1,105 @@
+.cm-account {
+    margin-top: 12rem;
+  
+    &__container {
+      display: flex;
+      justify-content: flex-start;
+      position: relative;
+      width: 100%;
+      max-width: 90%;
+      margin: 0 auto;
+      padding: 0 2rem;
+  
+      @include respond(mobileL) {
+        flex-direction: column;
+        max-width: 100%;
+        text-align: center;
+      }
+    }
+
+    &__left,
+    &__form {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    &__left {
+      padding-right: 2rem;
+    }
+  
+    &__img {
+      height: 20rem;
+      width: 20rem;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  
+    &__upload-file {
+      visibility: hidden;
+    }
+  
+    &__image-preview {
+      height: 15rem;
+      margin: 1rem 0;
+    }
+  
+    &__new-image {
+      height: 100%;
+    }
+  
+    &__error {
+      margin-top: .5rem;
+      font-size: 1.4rem;
+      color: $color-primary;
+    }
+  
+    &__right {
+      padding: 0 3rem 2rem 0;
+      width: 80%;
+  
+      @include respond(mobileL) {
+        max-width: 100%;
+        padding: 0 0.5rem 1.5rem 0.5rem;
+      }
+    }
+  
+    &__content {
+      margin-top: 8rem;
+      padding: 0 2rem;
+  
+      @include respond(mobileL) {
+        margin-top: 3rem;
+      }
+    }
+  
+    &__name {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02rem;
+    }
+  
+    &__email,
+    &__reg-date {
+        font-size: 1.4rem;
+    }
+  
+    &__heading {
+        margin-top: 4rem;
+        font-size: 2rem;
+    }
+
+    &__course-list {
+      display: flex;
+    }
+  
+    &__course-list,
+    &__review-list {
+        padding-top: 2rem;
+    }
+  
+    &__review-list {
+      list-style-type: none;
+    }
+  }

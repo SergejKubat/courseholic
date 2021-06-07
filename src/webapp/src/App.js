@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-do
 
 // components
 import ScrollToTop from './components/ScrollToTop';
+import ProtectedRoute from './routes/ProtectedRoute';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -29,7 +30,7 @@ function App() {
               <Route exact path="/author/:username" component={AuthorPage} />
               <Route exact path="/author/:username/courses/:courseId" component={CoursePage} />
               <Route exact path="/search" component={SearchPage} />
-              <Route path="/account/:accountId" component={AccountPage} />
+              <ProtectedRoute exact path="/account" component={AccountPage} />
               <Route exact path="/" component={() => <Redirect to="/home" />} />
               <Route path="*" component={ErrorPage} />
           </Switch>

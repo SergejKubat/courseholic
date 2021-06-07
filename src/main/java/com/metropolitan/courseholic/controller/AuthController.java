@@ -3,6 +3,7 @@ package com.metropolitan.courseholic.controller;
 import com.metropolitan.courseholic.payload.JwtAuthResponse;
 import com.metropolitan.courseholic.payload.LoginDto;
 import com.metropolitan.courseholic.payload.SignUpDto;
+import com.metropolitan.courseholic.payload.UserDto;
 import com.metropolitan.courseholic.repository.UserRepository;
 import com.metropolitan.courseholic.security.JwtTokenProvider;
 import com.metropolitan.courseholic.service.UserService;
@@ -56,6 +57,11 @@ public class AuthController {
         userService.createUser(signUpDto);
 
         return new ResponseEntity<>("User registered successfully.", HttpStatus.OK);
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<UserDto> getUserDetails() {
+        return new ResponseEntity<>(userService.getUserDetails(), HttpStatus.OK);
     }
 
 }

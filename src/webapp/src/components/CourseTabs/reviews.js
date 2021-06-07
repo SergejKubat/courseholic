@@ -1,6 +1,8 @@
 import ReviewList from '../ReviewList';
 import CreateReview from '../CreateReview';
 
+import AuthService from '../../services/AuthService';
+
 import { BsStarFill, BsStar } from 'react-icons/bs';
 
 const CourseReviews = (props) => {
@@ -67,9 +69,11 @@ const CourseReviews = (props) => {
                 key={props.courseDto.course.id}
                 reviews={props.courseDto.reviews}
             />
-            <CreateReview
-            courseId={props.courseDto.course.id}
-            />
+            {AuthService.isAuthenticated() && (
+                <CreateReview
+                courseId={props.courseDto.course.id}
+                />
+            )}
         </div>
     );
 }
