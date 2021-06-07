@@ -1,15 +1,16 @@
 package com.metropolitan.courseholic;
 
+import com.metropolitan.courseholic.config.FileStorageConfiguration;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-import javax.servlet.ServletContext;
-
 @SpringBootApplication
+@EnableConfigurationProperties({
+        FileStorageConfiguration.class
+})
 public class CourseholicApplication {
 
     @Bean

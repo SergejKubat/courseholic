@@ -13,6 +13,8 @@ const AccountPage = () => {
     const [reviews, setReviews] = useState([]);
     const [purchasedCourses, setPurchasedCourses] = useState([]);
 
+    const [selectedFile, setSelectedFile] = useState(null);
+
     useEffect(
         () => {
             setUser(AuthService.getCurrentUser());
@@ -28,6 +30,17 @@ const AccountPage = () => {
         []
     );
 
+    const fileSelectedHandler = (event) => {
+        setSelectedFile(event.target.files[0]);
+    }
+
+    const fileUploadHandler = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append('avatar', selectedFile, selectedFile.name);
+    }
+
     return (
         <div className="cm-account">
             <div className="cm-account__container">
@@ -39,9 +52,9 @@ const AccountPage = () => {
                         height="200"
                         width="200"
                     />
-                    <form className="cm-account__form">
+                    <form className="cm-account__form" onSubmit={(e) => fileUploadHandler(e)}>
                         <button className="cm-btn">Upload picture</button>
-                        <input type="file" className="cm-account__upload-file" />
+                        <input type="file" className="cm-account__upload-file" onChange={(e) => fileSelectedHandler(e)} />
                         {/*<div className="cm-account__image-preview">
                             <img alt="Nova slika" className="cm-account__new-image" />
                         </div>
