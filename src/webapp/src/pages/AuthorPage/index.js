@@ -9,65 +9,79 @@ const AuthorPage = () => {
 
     const params = useParams();
 
-    const [authorDto, setAuthorDto] = useState({ 
-        author: {}, 
-        courses: [] 
+    const [authorDto, setAuthorDto] = useState({
+        author: {},
+        courses: []
     });
+
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(
         () => {
+            setIsLoading(true);
             AuthorService.getByUsername(params.username).then(response => {
                 setAuthorDto(response.data);
+                setIsLoading(false);
             });
         },
-        []
+        [params]
     );
 
     return (
         <section className="cm-author">
-            <div className="cm-author__container">
-                <img src={authorDto.author.avatar} alt={authorDto.author.username} className="cm-author__img" height="200" width="200" />
-                <div className="cm-author__content">
-                    <div className="cm-author__title">Author</div>
-                    <h1 className="cm-author__heading">{authorDto.author.firstName} {authorDto.author.lastName}</h1>
-                    <h2 className="cm-author__job">{authorDto.author.proffesion}</h2>
-                    <div className="cm-author__stats">
-                    <div className="cm-author__stat">
-                        <div className="cm-author__stat-title">Students</div>
-                        <div className="cm-author__stat-count">{authorDto.numberOfStudents}</div>
-                    </div>
-                    <div className="cm-author__stat">
-                        <div className="cm-author__stat-title">Reviews</div>
-                        <div className="cm-author__stat-count">{authorDto.numberOfRatings}</div>
-                    </div>
-                    </div>
-                    <h2 className="cm-author__about-heading">About me</h2>
-                    <p className="cm-author__about-text">{authorDto.author.description}</p>
+            
+            {isLoading && (
+                <div className="cm-categories-list">
+                    <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
                 </div>
+            )}
 
-                <div className="cm-author__courses">
-                    <h2 className="cm-author__courses-title">My courses ({authorDto.courses.length})</h2>
-                    <div className="cm-author__courses-list">
-                        {authorDto.courses.map(courseDto => (
-                            <CourseCard
-                            key={courseDto.course.id}
-                            id={courseDto.course.id}
-                            name={courseDto.course.name}
-                            picture={courseDto.course.picture}
-                            price={courseDto.course.price}
-                            averageRating={courseDto.averageRating}
-                            numberOfRatings={courseDto.numberOfRatings}
-                            authorUsername={courseDto.author.username}
-                            authorFirstName={courseDto.author.firstName}
-                            authorLastName={courseDto.author.lastName}
-                            numberOfStudents={courseDto.numberOfStudents}
-                            />
-                        ))}
+            {!isLoading && (
+                <div className="cm-author__container">
+                    <img src={authorDto.author.avatar} alt={authorDto.author.username} className="cm-author__img" height="200" width="200" />
+                    <div className="cm-author__content">
+                        <div className="cm-author__title">Author</div>
+                        <h1 className="cm-author__heading">{authorDto.author.firstName} {authorDto.author.lastName}</h1>
+                        <h2 className="cm-author__job">{authorDto.author.proffesion}</h2>
+                        <div className="cm-author__stats">
+                            <div className="cm-author__stat">
+                                <div className="cm-author__stat-title">Students</div>
+                                <div className="cm-author__stat-count">{authorDto.numberOfStudents}</div>
+                            </div>
+                            <div className="cm-author__stat">
+                                <div className="cm-author__stat-title">Reviews</div>
+                                <div className="cm-author__stat-count">{authorDto.numberOfRatings}</div>
+                            </div>
+                        </div>
+                        <h2 className="cm-author__about-heading">About me</h2>
+                        <p className="cm-author__about-text">{authorDto.author.description}</p>
+                    </div>
+
+                    <div className="cm-author__courses">
+                        <h2 className="cm-author__courses-title">My courses ({authorDto.courses.length})</h2>
+                        <div className="cm-author__courses-list">
+                            {authorDto.courses.map(courseDto => (
+                                <CourseCard
+                                    key={courseDto.course.id}
+                                    id={courseDto.course.id}
+                                    name={courseDto.course.name}
+                                    picture={courseDto.course.picture}
+                                    price={courseDto.course.price}
+                                    averageRating={courseDto.averageRating}
+                                    numberOfRatings={courseDto.numberOfRatings}
+                                    authorUsername={courseDto.author.username}
+                                    authorFirstName={courseDto.author.firstName}
+                                    authorLastName={courseDto.author.lastName}
+                                    numberOfStudents={courseDto.numberOfStudents}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
+
         </section>
     );
 }
- 
+
 export default AuthorPage;

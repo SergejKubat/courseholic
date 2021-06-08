@@ -58,7 +58,7 @@ function Header() {
                         <ul className="cm-categories__list">
                             {categories.map(category => (
                                 <li key={category.id} className="cm-categories__item">
-                                    <NavLink to="/search/categories">
+                                    <NavLink to="/search">
                                         {category.name}
                                     </NavLink>
                                 </li>
@@ -163,7 +163,7 @@ function Header() {
                                 </label>
                                 <ul className="cm-navigation__sub-list">
                                     {categories.map(category => (
-                                        <li className="cm-navigation__sub-item">
+                                        <li key={category.id} className="cm-navigation__sub-item">
                                             {category.name}
                                         </li>
                                     ))}

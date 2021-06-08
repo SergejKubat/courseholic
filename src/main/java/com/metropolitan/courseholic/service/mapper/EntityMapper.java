@@ -65,11 +65,9 @@ public class EntityMapper {
     public Review mapToReviewEntity(ReviewDto reviewDto) {
         Review review = new Review();
 
-        LocalDate now = LocalDate.now();
-
         review.setComment(reviewDto.getComment());
         review.setRating(reviewDto.getRating());
-        review.setDateCreated(now);
+        review.setDateCreated(LocalDate.now());
 
         return review;
     }

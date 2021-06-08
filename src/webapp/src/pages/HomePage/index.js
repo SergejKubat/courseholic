@@ -21,7 +21,6 @@ function HomePage() {
         () => {
             setIsLoading(true);
             CategoryService.getAll().then(response => {
-                console.log(response);
                 setCategories(response.data);
                 setIsLoading(false);
             });
@@ -62,7 +61,7 @@ function HomePage() {
                 )}
                 {isLoading && (
                     <div className="cm-categories-list">
-                        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                        <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
                     </div>
                 )}
             </section>

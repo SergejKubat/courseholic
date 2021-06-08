@@ -55,7 +55,7 @@ const SearchBar = () => {
                             <li className="cm-search__item">
                                 <FaSearch />
                                 <Link to={'/author/' + result.authorUsername + '/courses/' + result.courseId}>
-                                    <span style={{ marginLeft: '.7rem' }}>{result.courseName}</span>
+                                    <span key={result.courseId} style={{ marginLeft: '.7rem' }}>{result.courseName}</span>
                                 </Link>
                             </li>
                         ))}

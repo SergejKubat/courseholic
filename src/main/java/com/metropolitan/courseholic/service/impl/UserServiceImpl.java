@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
         User newUser = userRepository.save(user);
 
-        //mailService.sendCreationEmail(newUser);
+        mailService.sendCreationEmail(newUser);
 
         UserDto userResponse = dtoMapper.mapToUserDTO(newUser);
 

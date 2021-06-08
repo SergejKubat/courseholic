@@ -38,12 +38,13 @@ const CreateReview = (props) => {
         setComment(commentValue);
 
         const data = {
-            comment: comment,
+            comment: commentValue,
             rating: ratingValue
         }
 
         ReviewService.createReview(props.courseId, data).then(response => {
-            window.location.reload();
+            console.log(response);
+            //window.location.reload();
         }).catch(error => {
             setResponseError(true);
             setResponseErrorMessage(error.response.data.message)

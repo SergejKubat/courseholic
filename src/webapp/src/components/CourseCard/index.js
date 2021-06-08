@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import { FaUserTie, FaUserGraduate } from 'react-icons/fa';
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
@@ -10,53 +10,53 @@ const CourseCard = (props) => {
     };
 
     return (
-        <div class="cm-course-item">
-            <div class="cm-course-item__thumbnail">
+        <div className="cm-course-item">
+            <div className="cm-course-item__thumbnail">
                 <img
                     src={props.picture}
                     alt={props.name}
-                    class="cm-course-item__img"
+                    className="cm-course-item__img"
                 />
-                <div class="cm-course-item__hidden">
-                    <button class="cm-btn">
-                        <NavLink to={'/author/' + props.authorUsername + '/courses/' + props.id}>
+                <div className="cm-course-item__hidden">
+                    <Link to={'/author/' + props.authorUsername + '/courses/' + props.id}>
+                        <button className="cm-btn">
                             Details
-                    </NavLink>
-                    </button>
+                        </button>
+                    </Link>
                 </div>
-                <span class="cm-course-item__popular">Popular</span>
-                <span class="cm-course-item__price">$ {props.price}</span>
-                <span class="cm-course-item__rating">
-                    <span class="average">{props.averageRating}</span>
+                <span className="cm-course-item__popular">Popular</span>
+                <span className="cm-course-item__price">$ {props.price}</span>
+                <span className="cm-course-item__rating">
+                    <span className="average">{props.averageRating}</span>
                     {
                         runCallback(() => {
                             const row = [];
                             for (var i = 0; i < 5; i++) {
                                 const difference = props.averageRating - i;
                                 if (difference >= 1) {
-                                    row.push(<BsStarFill />);
+                                    row.push(<BsStarFill key={i} />);
                                     continue;
                                 }
                                 if (difference < 1 && difference > 0) {
-                                    row.push(<BsStarHalf />);
+                                    row.push(<BsStarHalf key={i} />);
                                     continue;
                                 }
-                                row.push(<BsStar />);
+                                row.push(<BsStar key={i} />);
                             }
                             return row;
                         })
                     }
-                    <span class="count">({props.numberOfRatings})</span>
+                    <span className="count">({props.numberOfRatings})</span>
                 </span>
             </div>
-            <div class="cm-course-item__details">
+            <div className="cm-course-item__details">
                 <h3>{props.name}</h3>
-                <div class="cm-course-item__info">
+                <div className="cm-course-item__info">
                     <span>
                         <FaUserTie />
-                        <NavLink to={'/author/' + props.authorUsername}>
+                        <Link to={'/author/' + props.authorUsername}>
                             {props.authorFirstName} {props.authorLastName}
-                        </NavLink>
+                        </Link>
                     </span>
                     <span>
                         <FaUserGraduate />

@@ -54,10 +54,10 @@ const Review = (props) => {
                             for (var i = 0; i < 5; i++) {
                                 const difference = props.review.rating - i;
                                 if (difference >= 1) {
-                                    row.push(<BsStarFill />);
+                                    row.push(<BsStarFill key={i} />);
                                     continue;
                                 }
-                                row.push(<BsStar />);
+                                row.push(<BsStar key={i} />);
                             }
                             return row;
                         })

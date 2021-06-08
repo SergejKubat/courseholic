@@ -11,17 +11,17 @@ const CategoryCard = (props) => {
                 setNumberOfCourses(res.data.courses.length);
             });
         },
-        [] 
+        [props.id] 
     );
 
     return (
-        <div class="cm-categories-item" tabindex="0">
+        <div className="cm-categories-item" tabIndex="0">
             <img
                 src={props.image}
                 alt={props.name}
-                class="cm-categories-img"
+                className="cm-categories-img"
             />
-            <div class="cm-categories-desc">
+            <div className="cm-categories-desc">
                 <h4>{props.name}</h4>
                 <p>{numberOfCourses} Courses</p>
             </div>

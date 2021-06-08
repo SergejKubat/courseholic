@@ -63,7 +63,6 @@ const CoursePage = () => {
                     PurchaseRecordService.getAllByUsername(AuthService.getCurrentUser().username).then(response => {
                         const courseList = response.data;
                         const filteredCourseList = courseList.filter(courseDtoItem => courseDtoItem.course.id === courseId);
-                        console.log(filteredCourseList);
                         setIsPurchased(filteredCourseList.length === 1);
                     });
                 }
@@ -94,14 +93,8 @@ const CoursePage = () => {
         
         PurchaseRecordService.createPurchaseRecord(courseDto.course.id).then(response => {
             setIsPurchased(true);
-            toast.success("Congratulations, you have successfully purchased this course!", {
-                style: {fontSize: '1.6rem'},
-                draggable: false,
-                autoClose: 5000,
-                position: toast.POSITION.TOP_CENTER
-            });
         }).catch(error => {
-            console.log(error.response);
+            //console.log(error.response);
         });
     }
 
@@ -110,7 +103,7 @@ const CoursePage = () => {
 
             {isLoading && (
                 <div className="cm-categories-list">
-                    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                    <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
                 </div>
             )}
 
@@ -141,7 +134,9 @@ const CoursePage = () => {
                                         <div className="cm-course__category">
                                             <label>Category</label>
                                             <div className="cm-course__category-name">
-                                                <a href="#" className="cm-course__category-link">{courseDto.category.name}</a>
+                                                <Link to="/search" className="cm-course__category-link">
+                                                    {courseDto.category.name}
+                                                </Link>
                                             </div>
                                         </div>
                                         <div className="cm-course__review">
@@ -156,14 +151,14 @@ const CoursePage = () => {
                                                         for (var i = 0; i < 5; i++) {
                                                             const difference = courseDto.averageRating - i;
                                                             if (difference >= 1) {
-                                                                row.push(<BsStarFill />);
+                                                                row.push(<BsStarFill key={i} />);
                                                                 continue;
                                                             }
                                                             if (difference < 1 && difference > 0) {
-                                                                row.push(<BsStarHalf />);
+                                                                row.push(<BsStarHalf key={i} />);
                                                                 continue;
                                                             }
-                                                            row.push(<BsStar />);
+                                                            row.push(<BsStar key={i} />);
                                                         }
                                                         return row;
                                                     })
