@@ -1,9 +1,28 @@
+import AuthService from '../../services/AuthService';
+import ReviewService from '../../services/ReviewService';
+
 import { BsStarFill, BsStar } from 'react-icons/bs';
 
 const Review = (props) => {
 
     const runCallback = (cb) => {
         return cb();
+    }
+
+    const checkCreator = () => {
+        if (!AuthService.isAuthenticated()) return false;
+
+        const currentUsername = AuthService.getCurrentUser().username;
+
+        return currentUsername === props.review.creator.username;
+    }
+
+    const deleteReview = () => {
+        ReviewService.deleteReview(props.review.id).then(response => {
+            console.log(response.data);
+        }).catch(error => {
+            //console.log(error.response.data);
+        });
     }
 
     return (
@@ -41,10 +60,12 @@ const Review = (props) => {
                 <p className="cm-course__reviews-comments-content">
                     {props.review.comment}
                 </p>
-                <div className="cm-course__reviews-comments-actions">
-                    {/* <button className="cm-btn">Update</button>
-                    <button className="cm-btn">Delete</button>*/}
-                </div>
+                    {checkCreator() && (
+                        <div className="cm-course__reviews-comments-actions">
+                            <button className="cm-btn">Update</button>
+                            <button className="cm-btn" onClick={() => deleteReview()}>Delete</button>
+                        </div>
+                    )}
                 </div>
             </div>
             <div></div>

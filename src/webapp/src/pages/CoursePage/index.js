@@ -44,9 +44,11 @@ const CoursePage = () => {
             setIsLoading(true);
             CourseService.getCourseById(params.username, params.courseId).then(response => {
                 setCourseDto(response.data);
+                const courseId = response.data.course.id;
                 CourseService.getCoursesByCategoryId(response.data.category.id).then(response => {
                     const allCourses = response.data.courses;
-                    const coursesWithoutCurrent = allCourses.filter(courseDtoItem => courseDtoItem.course.id !== courseDto.course.id);
+                    const coursesWithoutCurrent = allCourses.filter(courseDtoItem => courseDtoItem.course.id !== courseId);
+                    console.log(coursesWithoutCurrent);
                     setCourseResponse(coursesWithoutCurrent);
                     setIsLoading(false);
                 });

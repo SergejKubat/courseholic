@@ -3,10 +3,13 @@ package com.metropolitan.courseholic.controller;
 import com.metropolitan.courseholic.payload.UserDto;
 import com.metropolitan.courseholic.payload.UserResponse;
 import com.metropolitan.courseholic.service.UserService;
+import com.metropolitan.courseholic.service.impl.FileStorageService;
 import com.metropolitan.courseholic.utils.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 
@@ -16,9 +19,11 @@ import javax.validation.Valid;
 public class UserController {
 
     private UserService userService;
+    private FileStorageService fileStorageService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, FileStorageService fileStorageService) {
         this.userService = userService;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping
@@ -41,6 +46,21 @@ public class UserController {
         UserDto userResponse = userService.updateUser(userDto, username);
 
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/{username}/uploadAvatar")
+    public ResponseEntity<UserDto> uploadAvatar(@RequestParam(name = "file") MultipartFile file, @PathVariable(name = "username") String username) {
+        String fileName = fileStorageService.storeFile(file);
+
+        String avatarUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/download/")
+                .path(fileName)
+                .toUriString();
+
+        UserDto userReponse = userService.uploadAvatar(username, avatarUrl);
+
+        return new ResponseEntity<>(userReponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{username}")

@@ -35,6 +35,10 @@ class AuthService {
         return JSON.parse(localStorage.getItem('user'));
     }
 
+    setCurrentUser(userDetails) {
+        localStorage.setItem('user', JSON.stringify(userDetails));
+    }
+
     isAuthenticated() {
         return localStorage.getItem('token') != null;
     }

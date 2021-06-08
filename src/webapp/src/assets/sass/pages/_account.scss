@@ -21,7 +21,7 @@
     &__form {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: center;
     }
 
     &__left {
@@ -34,10 +34,26 @@
       object-fit: cover;
       border-radius: 50%;
     }
+
+    &__upload-text {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem 0;
+      font-size: 1.6rem;
+    }
   
-    /*&__upload-file {
-      visibility: hidden;
-    }*/
+    &__upload-file {
+      display: none;
+    }
+
+    &__image-preview-container {
+      display: none;
+    }
+
+    &__image-preview-heading {
+      font-size: 1.4rem;
+    }
   
     &__image-preview {
       height: 15rem;

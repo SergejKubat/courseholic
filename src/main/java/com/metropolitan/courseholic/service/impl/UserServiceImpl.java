@@ -116,6 +116,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto uploadAvatar(String username, String avatarUrl) {
+        if (!checkUser(username)) {
+            throw new CourseholicAPIException(HttpStatus.BAD_REQUEST, "Wrong user.");
+        }
+
+        User user = userRepository.findById(username).orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+
+        user.setAvatar(avatarUrl);
+
+        User updatedUser = userRepository.save(user);
+
+        return dtoMapper.mapToUserDTO(updatedUser);
+    }
+
+    @Override
     public void deleteUser(String username) {
 
         if (!checkUser(username)) {

@@ -54,4 +54,12 @@ public class ReviewController {
         return new ResponseEntity<>("Review deleted successfully", HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @DeleteMapping("reviews/{reviewId}")
+    public ResponseEntity<String> deleteReviewByUser(@PathVariable(value = "reviewId") long reviewId) {
+        reviewService.deleteReviewByUser(reviewId);
+
+        return new ResponseEntity<>("Review deleted successfully", HttpStatus.OK);
+    }
+
 }

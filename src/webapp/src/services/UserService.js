@@ -12,6 +12,10 @@ class UserService {
         return axios.get(USERS_API_URI);
     }
 
+    uploadAvatar(username, data) {
+        return axios.put(`${USERS_API_URI}/${username}/uploadAvatar`, data, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } });
+    }
+
 }
 
 export default new UserService();

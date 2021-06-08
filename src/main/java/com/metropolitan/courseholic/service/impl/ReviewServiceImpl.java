@@ -116,6 +116,20 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.delete(reviewRepository.findById(reviewId).get());
     }
 
+    @Override
+    public void deleteReviewByUser(long reviewId) {
+        User user = userRepository.findById(SecurityUtils.getCurrentUserUsername()).get();
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new ResourceNotFoundException("Review", "id", String.valueOf(reviewId)));
+
+        List<Review> filteredReviews = user.getReviews().stream().filter(review1 -> review1.getId() == reviewId).collect(Collectors.toList());
+
+        if (filteredReviews.size() != 1) {
+            throw new CourseholicAPIException(HttpStatus.BAD_REQUEST, "This review is not yours.");
+        }
+
+        reviewRepository.delete(review);
+    }
+
     private void checkReview(long courseId, long reviewId) {
         User user = userRepository.findById(SecurityUtils.getCurrentUserUsername()).get();
         Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course", "id", String.valueOf(courseId)));

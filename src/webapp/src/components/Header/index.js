@@ -96,8 +96,8 @@ function Header() {
                     {AuthService.isAuthenticated() && (
                         <Link to="/account">
                             <img 
-                            src="http://localhost:8080/img/user.png" 
-                            alt="user" 
+                            src={AuthService.getCurrentUser().avatar}
+                            alt={AuthService.getCurrentUser().username} 
                             className="cm-user__avatar" 
                             />
                         </Link>
@@ -127,7 +127,7 @@ function Header() {
                                 <input
                                     type="text"
                                     name="q"
-                                    placeholder="Pretražite kurseve"
+                                    placeholder="Search courses"
                                     className="cm-search__input-small"
                                     autoComplete="off"
                                     required
@@ -137,16 +137,18 @@ function Header() {
                             <li className="cm-navigation__item">
                                 <NavLink exact to="/home">Home</NavLink>
                             </li>
-                            <li className="cm-navigation__item">
-                                <a className="cm-navigation__flex">
-                                <img
-                                    src="bla"
-                                    alt=""
-                                    className="cm-user__avatar-small"
-                                />
-                                <span className="cm-user__name">username</span>
-                                </a>
-                            </li>
+                            {AuthService.isAuthenticated() && (
+                                <li className="cm-navigation__item">
+                                    <Link to="/account" className="cm-navigation__flex">
+                                        <img
+                                            src={AuthService.getCurrentUser().avatar}
+                                            alt={AuthService.getCurrentUser().username}
+                                            className="cm-user__avatar-small"
+                                        />
+                                        <span className="cm-user__name">{AuthService.getCurrentUser().username}</span>
+                                    </Link>
+                                </li>
+                            )}
                             <li className="cm-navigation__item">
                                 <input
                                 type="checkbox"
@@ -156,17 +158,15 @@ function Header() {
                                 onChange={() => console.log('changed')}
                                 />
                                 <label htmlFor="sub-menu" className="cm-navigation__label">
-                                Categories
-                                <i
-                                    className="fa fa-angle-down cm-navigation__angle"
-                                    aria-hidden="true"
-                                ></i>
+                                    Categories
+                                    <FaAngleDown style={{ marginLeft: '.5rem' }} />
                                 </label>
                                 <ul className="cm-navigation__sub-list">
-                                <li
-                                    className="cm-navigation__sub-item">
-                                    
-                                </li>
+                                    {categories.map(category => (
+                                        <li className="cm-navigation__sub-item">
+                                            {category.name}
+                                        </li>
+                                    ))}
                                 </ul>
                             </li>
                             {!AuthService.isAuthenticated() && (

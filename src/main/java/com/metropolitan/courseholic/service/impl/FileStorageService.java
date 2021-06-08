@@ -1,8 +1,8 @@
 package com.metropolitan.courseholic.service.impl;
 
-import com.metropolitan.courseholic.config.FileStorageConfiguration;
 import com.metropolitan.courseholic.exception.FileNotFoundException;
 import com.metropolitan.courseholic.exception.FileStorageException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -19,52 +19,52 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class FileStorageService {
 
-    private final Path fileStorageLocation;
+    private Path fileStoragePath;
+    private String fileStorageLocation;
 
-    private FileStorageConfiguration fileStorageConfiguration;
+    public FileStorageService(@Value("${file.upload-dir}") String fileStorageLocation) {
+        this.fileStorageLocation = fileStorageLocation;
 
-    public FileStorageService(FileStorageConfiguration fileStorageConfiguration) {
-        this.fileStorageConfiguration = fileStorageConfiguration;
-        this.fileStorageLocation = Paths.get(fileStorageConfiguration.getUploadDir())
-                .toAbsolutePath().normalize();
+        fileStoragePath = Paths.get(fileStorageLocation).toAbsolutePath().normalize();
 
         try {
-            Files.createDirectories(this.fileStorageLocation);
-        } catch (Exception ex) {
-            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
+            Files.createDirectories(fileStoragePath);
+        } catch (IOException e) {
+            throw new FileStorageException("Issue in creating file directory");
         }
     }
 
     public String storeFile(MultipartFile file) {
-
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
+        Path filePath = Paths.get(fileStoragePath + "\\" + fileName);
+
         try {
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new FileStorageException("Issue in storing the file", e);
+        }
 
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
+        return fileName;
+    }
 
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+    public Resource downloadFile(String fileName) {
 
-            return fileName;
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(fileName);
+
+        Resource resource;
+        try {
+            resource = new UrlResource(path.toUri());
+
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Issue in reading the file", e);
+        }
+
+        if(resource.exists() && resource.isReadable()) {
+            return resource;
+        } else {
+            throw new FileNotFoundException("the file doesn't exist or not readable");
         }
     }
 
-    public Resource loadFileAsResource(String fileName) {
-        try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
-            if(resource.exists()) {
-                return resource;
-            } else {
-                throw new FileNotFoundException("File not found " + fileName);
-            }
-        } catch (MalformedURLException ex) {
-            throw new FileNotFoundException("File not found " + fileName, ex);
-        }
-    }
 }

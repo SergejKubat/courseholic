@@ -18,6 +18,8 @@ public interface UserService {
 
     UserDto updateUser(UserDto userDto, String username);
 
+    UserDto uploadAvatar(String username, String avatarUrl);
+
     void deleteUser(String username);
 
 }

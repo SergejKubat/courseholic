@@ -16,4 +16,6 @@ public interface ReviewService {
 
     void deleteReview(long courseId, long reviewId);
 
+    void deleteReviewByUser(long reviewId);
+
 }

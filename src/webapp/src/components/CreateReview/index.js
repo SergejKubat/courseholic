@@ -12,6 +12,9 @@ const CreateReview = (props) => {
     const [comment, setComment] = useState("");
     const [commentError, setCommentError] = useState(false);
 
+    const [responseErrorMessage, setResponseErrorMessage] = useState(false);
+    const [responseError, setResponseError] = useState(false);
+
     const onStarClick = (nextValue, prevValue, name) => {
         setRatingValue(nextValue);
     }
@@ -40,7 +43,10 @@ const CreateReview = (props) => {
         }
 
         ReviewService.createReview(props.courseId, data).then(response => {
-            console.log(response);
+            window.location.reload();
+        }).catch(error => {
+            setResponseError(true);
+            setResponseErrorMessage(error.response.data.message)
         });
     }
 
@@ -76,6 +82,9 @@ const CreateReview = (props) => {
                         <button type="submit" className="cm-btn">Submit</button>
                     </div>
                 </form>
+                {responseError && (
+                    <div className="cm-course__reviews-create-error">{responseErrorMessage}</div>
+                )}
             </div>
         </div>
     );

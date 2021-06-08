@@ -20,6 +20,7 @@ function HomePage() {
         () => {
             setIsLoading(true);
             CategoryService.getAll().then(response => {
+                console.log(response);
                 setCategories(response.data);
                 setIsLoading(false);
             });
