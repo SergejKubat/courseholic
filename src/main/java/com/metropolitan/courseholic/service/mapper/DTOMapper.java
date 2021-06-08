@@ -95,11 +95,12 @@ public class DTOMapper {
         courseResponse.setLanguage(mapToLanguageDTO(course.getLanguage()));
         courseResponse.setSections(course.getSections().stream().map(section -> mapToSectionResponse(section)).collect(Collectors.toList()));
         courseResponse.setReviews(course.getReviews().stream().map(review -> mapToReviewDto(review)).collect(Collectors.toList()));
-        courseResponse.setNumberOfRating(course.getReviews().size());
+        courseResponse.setNumberOfRatings(course.getReviews().size());
 
+        int numberOfRatings = course.getReviews().size();
         int sumOfRating = course.getReviews().stream().mapToInt(Review::getRating).sum();
 
-        double averageRating = sumOfRating * 1.0 / course.getReviews().size();
+        double averageRating = numberOfRatings != 0 ? sumOfRating * 1.0 / numberOfRatings : 0;
 
         courseResponse.setAverageRating(averageRating);
         courseResponse.setNumberOfStudents(course.getPurchaseRecords().size());
@@ -111,19 +112,17 @@ public class DTOMapper {
 
         Set<Review> reviews = course.getReviews();
 
-        int numberOfRatings = reviews.size();
-
         int numberOfOneRating = reviews.stream().filter(review -> review.getRating() == 1).collect(Collectors.toList()).size();
         int numberOfTwoRating = reviews.stream().filter(review -> review.getRating() == 2).collect(Collectors.toList()).size();
         int numberOfThreeRating = reviews.stream().filter(review -> review.getRating() == 3).collect(Collectors.toList()).size();
         int numberOfFourRating = reviews.stream().filter(review -> review.getRating() == 4).collect(Collectors.toList()).size();
         int numberOfFiveRating = reviews.stream().filter(review -> review.getRating() == 5).collect(Collectors.toList()).size();
 
-        double percentOfOneRating = (numberOfOneRating * 1.0 / numberOfRatings) * 100;
-        double percentOfTwoRating = (numberOfTwoRating * 1.0 / numberOfRatings) * 100;
-        double percentOfThreeRating = (numberOfThreeRating * 1.0 / numberOfRatings) * 100;
-        double percentOfFourRating = (numberOfFourRating * 1.0 / numberOfRatings) * 100;
-        double percentOfFiveRating = (numberOfFiveRating * 1.0 / numberOfRatings) * 100;
+        double percentOfOneRating = numberOfRatings != 0 ? (numberOfOneRating * 1.0 / numberOfRatings) * 100 : 0;
+        double percentOfTwoRating = numberOfRatings != 0 ? (numberOfTwoRating * 1.0 / numberOfRatings) * 100 : 0;
+        double percentOfThreeRating = numberOfRatings != 0 ? (numberOfThreeRating * 1.0 / numberOfRatings) * 100 : 0;
+        double percentOfFourRating = numberOfRatings != 0 ? (numberOfFourRating * 1.0 / numberOfRatings) * 100 : 0;
+        double percentOfFiveRating = numberOfRatings != 0 ? (numberOfFiveRating * 1.0 / numberOfRatings) * 100: 0;
 
         courseResponse.setNumberOfRatings(numberOfRatings);
         courseResponse.setPercentOfOneRating(percentOfOneRating);
@@ -177,6 +176,16 @@ public class DTOMapper {
         searchDto.setCourseName(course.getName());
 
         return searchDto;
+    }
+
+    public PurchaseRecordDto mapToPurchaseRecordDto(PurchaseRecord purchaseRecord) {
+        PurchaseRecordDto purchaseRecordDto = new PurchaseRecordDto();
+
+        purchaseRecordDto.setUsername(purchaseRecord.getUser().getUsername());
+        purchaseRecordDto.setCourseId(purchaseRecord.getCourse().getId());
+        purchaseRecordDto.setDateCreated(purchaseRecord.getDateCreated());
+
+        return purchaseRecordDto;
     }
 
 }

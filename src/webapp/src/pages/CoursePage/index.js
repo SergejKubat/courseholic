@@ -2,7 +2,9 @@ import { useParams } from "react-router";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
+import AuthService from '../../services/AuthService';
 import CourseService from '../../services/CourseService';
+import PurchaseRecordService from '../../services/PurchaseRecordService';
 
 import CourseTabs from '../../components/CourseTabs';
 import CourseCard from '../../components/CourseCard';
@@ -12,6 +14,8 @@ import ReactPlayer from 'react-player';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import Moment from 'react-moment';
 
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 
@@ -37,6 +41,8 @@ const CoursePage = () => {
 
     const [isErrorVisible, setIsErrorVisible] = useState(false);
 
+    const [isPurchased, setIsPurchased] = useState(false);
+
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(
@@ -45,16 +51,25 @@ const CoursePage = () => {
             CourseService.getCourseById(params.username, params.courseId).then(response => {
                 setCourseDto(response.data);
                 const courseId = response.data.course.id;
+
                 CourseService.getCoursesByCategoryId(response.data.category.id).then(response => {
                     const allCourses = response.data.courses;
                     const coursesWithoutCurrent = allCourses.filter(courseDtoItem => courseDtoItem.course.id !== courseId);
-                    console.log(coursesWithoutCurrent);
                     setCourseResponse(coursesWithoutCurrent);
                     setIsLoading(false);
                 });
+
+                if (AuthService.isAuthenticated()) {
+                    PurchaseRecordService.getAllByUsername(AuthService.getCurrentUser().username).then(response => {
+                        const courseList = response.data;
+                        const filteredCourseList = courseList.filter(courseDtoItem => courseDtoItem.course.id === courseId);
+                        console.log(filteredCourseList);
+                        setIsPurchased(filteredCourseList.length === 1);
+                    });
+                }
             });
         },
-        [params]
+        [params, isPurchased]
     );
 
     const runCallback = (cb) => {
@@ -62,11 +77,31 @@ const CoursePage = () => {
     }
 
     const notify = () => {
+        if (isPurchased) return;
         toast.info("Interested in this course? Purchase it today!", {
             style: {fontSize: '1.6rem'},
             draggable: false,
             autoClose: 5000,
             position: toast.POSITION.TOP_CENTER
+        });
+    }
+
+    const buyCourse = (e) => {
+        if (!AuthService.isAuthenticated()) {
+            setIsErrorVisible(true);
+            return;
+        }
+        
+        PurchaseRecordService.createPurchaseRecord(courseDto.course.id).then(response => {
+            setIsPurchased(true);
+            toast.success("Congratulations, you have successfully purchased this course!", {
+                style: {fontSize: '1.6rem'},
+                draggable: false,
+                autoClose: 5000,
+                position: toast.POSITION.TOP_CENTER
+            });
+        }).catch(error => {
+            console.log(error.response);
         });
     }
 
@@ -143,9 +178,12 @@ const CoursePage = () => {
                                             <span className="cm-course__price-new">{courseDto.course.price} $</span>
                                         </div>
                                         <div className="cm-course__button">
-                                            <button className="cm-btn" onClick={() => setIsErrorVisible(true)}>Buy Course</button>
+                                            {!isPurchased && (
+                                                <button className="cm-btn" onClick={(e) => buyCourse(e)}>Buy Course</button>
+                                            )}
                                         </div>
                                     </div>
+                                    <p className="cm-course__last-updated">Last updated: <b><Moment fromNow>{courseDto.course.lastUpdated}</Moment></b></p>
                                 </div>
 
                                 <div className="cm-course__thumbnail">
@@ -177,7 +215,7 @@ const CoursePage = () => {
                                                 picture={courseRes.course.picture}
                                                 price={courseRes.course.price}
                                                 averageRating={courseRes.averageRating}
-                                                numberOfRating={courseRes.numberOfRating}
+                                                numberOfRatings={courseRes.numberOfRatings}
                                                 authorUsername={courseRes.author.username}
                                                 authorFirstName={courseRes.author.firstName}
                                                 authorLastName={courseRes.author.lastName}

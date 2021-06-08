@@ -46,7 +46,7 @@ const CourseCard = (props) => {
                             return row;
                         })
                     }
-                    <span class="count">({props.numberOfRating})</span>
+                    <span class="count">({props.numberOfRatings})</span>
                 </span>
             </div>
             <div class="cm-course-item__details">

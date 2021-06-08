@@ -2,10 +2,12 @@ package com.metropolitan.courseholic.service.impl;
 
 import com.metropolitan.courseholic.exception.CourseholicAPIException;
 import com.metropolitan.courseholic.exception.ResourceNotFoundException;
+import com.metropolitan.courseholic.model.Role;
 import com.metropolitan.courseholic.model.User;
 import com.metropolitan.courseholic.payload.SignUpDto;
 import com.metropolitan.courseholic.payload.UserDto;
 import com.metropolitan.courseholic.payload.UserResponse;
+import com.metropolitan.courseholic.repository.RoleRepository;
 import com.metropolitan.courseholic.repository.UserRepository;
 import com.metropolitan.courseholic.security.SecurityUtils;
 import com.metropolitan.courseholic.service.UserService;
@@ -77,13 +79,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserByUsername(String username) {
         User user = userRepository.findById(username).orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
-
-        return dtoMapper.mapToUserDTO(user);
-    }
-
-    @Override
-    public UserDto getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
 
         return dtoMapper.mapToUserDTO(user);
     }

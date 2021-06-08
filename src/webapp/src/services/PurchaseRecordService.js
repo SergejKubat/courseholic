@@ -8,6 +8,10 @@ class PurchaseRecordService {
         return axios.get(`${API_URI}/users/${username}/records`);
     }
 
+    createPurchaseRecord(courseId) {
+        return axios.post(`${API_URI}/courses/${courseId}/records`, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+    }
+
 }
 
 export default new PurchaseRecordService();

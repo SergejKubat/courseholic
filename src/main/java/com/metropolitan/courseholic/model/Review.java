@@ -13,10 +13,7 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Review comment is mandatory")
     private String comment;
-    @Min(value = 1, message = "Review rate should not be less than 1")
-    @Max(value = 5, message = "Review rate should not be greater than 5")
     private Integer rating;
     @Column(name = "date_created")
     private LocalDate dateCreated;

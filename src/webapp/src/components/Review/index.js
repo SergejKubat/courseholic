@@ -1,6 +1,8 @@
 import AuthService from '../../services/AuthService';
 import ReviewService from '../../services/ReviewService';
 
+import Moment from 'react-moment';
+
 import { BsStarFill, BsStar } from 'react-icons/bs';
 
 const Review = (props) => {
@@ -39,7 +41,11 @@ const Review = (props) => {
                         <p className="cm-course__reviews-comments-creator__username">@{props.review.creator.username}</p>
                     </div>
                 </div>
-                <div className="cm-course__reviews-comments-date">{props.review.dateCreated}</div>
+                <div className="cm-course__reviews-comments-date">
+                    <Moment fromNow>
+                        {props.review.dateCreated}
+                    </Moment>
+                    </div>
                 <div className="cm-course__reviews-comments-details">
                 <div className="cm-course__reviews-comments-stars">
                     {

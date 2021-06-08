@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import CategoryCard from '../../components/CategoryCard';
 import AuthorCard from '../../components/AuthorCard';
 import PopularCourses from '../../components/PopularCourses';
+import Milestone from '../../components/Milestone';
 import Sponsors from '../../components/Sponsors';
 
 import CategoryService from '../../services/CategoryService';
@@ -90,42 +91,7 @@ function HomePage() {
 
             <PopularCourses />
 
-            <section className="cm-numbers">
-                <div className="cm-numbers__row">
-                <div className="cm-numbers__col">
-                    <div className="cm-numbers__main">
-                    <h1>100%</h1>
-                    </div>
-                    <div className="cm-numbers__sub">
-                    <span>Success Rate</span>
-                    </div>
-                </div>
-                <div className="cm-numbers__col">
-                    <div className="cm-numbers__main">
-                    <h1>5+</h1>
-                    </div>
-                    <div className="cm-numbers__sub">
-                    <span>Years of Service</span>
-                    </div>
-                </div>
-                <div className="cm-numbers__col">
-                    <div className="cm-numbers__main">
-                    <h1>123</h1>
-                    </div>
-                    <div className="cm-numbers__sub">
-                    <span>Students</span>
-                    </div>
-                </div>
-                <div className="cm-numbers__col">
-                    <div className="cm-numbers__main">
-                    <h1>23</h1>
-                    </div>
-                    <div className="cm-numbers__sub">
-                    <span>Courses</span>
-                    </div>
-                </div>
-                </div>
-            </section>
+            <Milestone />
 
             <section className="cm-featured-instructors">
                 <h1 className="cm-heading">

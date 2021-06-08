@@ -17,7 +17,6 @@ public class CourseResponse {
     private LanguageDto language;
     private List<SectionResponse> sections;
     private List<ReviewDto> reviews;
-    private long numberOfRating;
     private double averageRating;
     private long numberOfStudents;
     private int numberOfSections;

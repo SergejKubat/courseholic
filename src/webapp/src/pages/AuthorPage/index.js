@@ -56,7 +56,7 @@ const AuthorPage = () => {
                             picture={courseDto.course.picture}
                             price={courseDto.course.price}
                             averageRating={courseDto.averageRating}
-                            numberOfRating={courseDto.numberOfRating}
+                            numberOfRatings={courseDto.numberOfRatings}
                             authorUsername={courseDto.author.username}
                             authorFirstName={courseDto.author.firstName}
                             authorLastName={courseDto.author.lastName}
